@@ -1,1698 +1,506 @@
 ---
-// Nexis Core Systems Enterprise Interface Boilerplate
-// Engineered for optimal layout shifting prevention and hardware acceleration.
+import Header from '../components/Header.astro';
+
+// Beispielhafte Event-Daten passend zu deiner Struktur
+const events = [
+  {
+    title: "Netzwerktreffen AG Zukunft",
+    date: "2026-07-15T19:00:00",
+    caption: "Gemeinsame Ausarbeitung unserer neuen Visionen und Jahresthemen im Hauptsaal.",
+    image: null // Setze hier ein Sanity-Bildobjekt ein, falls vorhanden
+  },
+  {
+    title: "Kreativ-Workshop: Wie alles begann",
+    date: "2026-08-02T14:30:00",
+    caption: "Ein interaktiver Nachmittag über die Entstehungsgeschichte unserer Gemeinschaft.",
+    image: null
+  }
+];
+
+// Sanity URL-Builder Platzhalterfunktion (falls du sie nutzt, ansonsten durch echte Imports ersetzen)
+const urlFor = (source: any) => ({
+  width: (w: number) => ({
+    height: (h: number) => ({
+      url: () => "https://picsum.photos/" + w + "/" + h // Fallback-Bilder
+    })
+  })
+});
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="core-system-html">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nexis Core — Enterprise Spatial Infrastructure</title>
-    <meta name="description" content="Next-generation asynchronous infrastructure handling core compute architecture pipelines globally." />
-    
-    <!-- Preconnect Operations -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  </head>
-  <body class="core-system-body">
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIRschaft - Homepage</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body>
 
-    <!-- Fixed Glassmorphic Navigation Matrix -->
-    <header class="nx-header">
-      <div class="nx-header-container">
-        <a href="#" class="nx-brand" aria-label="Nexis Core Home">
-          <div class="nx-brand-indicator"></div>
-          <span class="nx-brand-firm">NEXIS</span><span class="nx-brand-division">CORE</span>
-        </a>
-        
-        <nav class="nx-nav" aria-label="Main Enterprise Navigation">
-          <ul class="nx-nav-list">
-            <li class="nx-nav-item"><a href="#solutions" class="nx-nav-link">Architecture</a></li>
-            <li class="nx-nav-item"><a href="#matrix" class="nx-nav-link">Data Mesh</a></li>
-            <li class="nx-nav-item"><a href="#showcase" class="nx-nav-link">Showcase</a></li>
-            <li class="nx-nav-item"><a href="#analytics" class="nx-nav-link">Performance</a></li>
-          </ul>
-        </nav>
+  <Header />
 
-        <div class="nx-header-actions">
-          <button class="nx-btn nx-btn-secondary nx-btn-sm hidden-mobile">System Log</button>
-          <button class="nx-btn nx-btn-primary nx-btn-sm">Initialize Core</button>
+  <main>
+    <section class="hero-section">
+      <div class="hero-bg-accent"></div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="badge">Unsere Philosophie</span>
+          <h1>Warum das alles? Weil Gemeinschaft Zukunft schafft.</h1>
+          <p>Willkommen bei der <strong>WIRschaft</strong>. Wir vereinen Ideen, Tatkraft und Menschen in Arbeitsgruppen (AGs), um gemeinsam neue Wege zu gehen.</p>
+          <div class="hero-actions">
+            <a href="#ags" class="btn btn-primary">Unsere AGs entdecken</a>
+            <a href="#ueber-uns" class="btn btn-secondary">Mehr über uns</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="image-card-deco"></div>
+          <div class="image-card">
+            <img src="/logo.png" alt="WIRschaft Großansicht" />
+          </div>
         </div>
       </div>
-    </header>
+    </section>
 
-    <!-- Unified Smooth Scroll Pipeline Wrapper -->
-    <main id="scroll-wrapper" class="nx-scroll-wrapper">
-
-      <!-- SECTION 1: Cinematic Reveal Hero -->
-      <section id="hero" class="nx-hero-section">
-        <!-- Interactive High-Performance Geometric Mesh Background -->
-        <div class="nx-mesh-grid" aria-hidden="true">
-          <div class="nx-mesh-line-v"></div>
-          <div class="nx-mesh-line-v"></div>
-          <div class="nx-mesh-line-v"></div>
-          <div class="nx-mesh-line-v"></div>
-          <div class="nx-mesh-glow"></div>
+    <section id="ueber-uns" class="info-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Über die WIRschaft</h2>
+          <div class="accent-line"></div>
         </div>
-
-        <div class="nx-container nx-hero-container">
-          <div class="nx-badge-wrapper hero-fade-in">
-            <div class="nx-badge">
-              <span class="nx-badge-dot"></span>
-              <span class="nx-badge-text">v4.0 Enterprise Infrastructure Active</span>
-            </div>
+        <div class="info-grid">
+          <div class="info-box">
+            <h3>Wie alles begann</h3>
+            <p>Aus einer kleinen Idee entstand eine dynamische Bewegung. Erfahre mehr über unsere ersten Impulse und Meilensteine.</p>
           </div>
-
-          <h1 class="nx-hero-title hero-fade-in">
-            Architecting <span class="text-gradient">Autonomous</span><br/>
-            Enterprise Core Systems
-          </h1>
-
-          <p class="nx-hero-lead hero-fade-in">
-            An asynchronous, fault-tolerant execution layer engineered to orchestrate multi-tenant enterprise telemetry down to bare-metal constraints with zero operational friction.
-          </p>
-
-          <div class="nx-hero-cta-group hero-fade-in">
-            <button class="nx-btn nx-btn-primary nx-btn-lg">Deploy Infrastructure</button>
-            <button class="nx-btn nx-btn-secondary nx-btn-lg">Review Documentation</button>
+          <div class="info-box">
+            <h3>Das erste Jahr</h3>
+            <p>Ein Jahr voller Herausforderungen, Erfolge und unvergesslicher Teammomente. Wir blicken stolz zurück.</p>
+          </div>
+          <div class="info-box">
+            <h3>Das Team</h3>
+            <p>Köpfe voller Ideen. Unsere Mitglieder bringen unterschiedlichste Kompetenzen in die Arbeitsgruppen ein.</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Float Interactive Metrics Card Panel Component -->
-        <div class="nx-container nx-hero-hardware-wrapper">
-          <div class="nx-hardware-card hero-card-trigger">
-            <div class="nx-card-glass-glow"></div>
-            <div class="nx-hardware-card-header">
-              <div class="nx-hardware-status">
-                <span class="nx-status-pulse"></span>
-                <span class="nx-status-label">SYS_METRIC // OPERATIONAL</span>
-              </div>
-              <span class="nx-hardware-code">0x7F9B12E</span>
-            </div>
-            <div class="nx-hardware-card-body">
-              <div class="nx-metric-block">
-                <span class="nx-metric-value">99.9999%</span>
-                <span class="nx-metric-title">Distributed Ledger Uptime Scale</span>
-              </div>
-              <div class="nx-metric-chart-mock" aria-hidden="true">
-                <div class="nx-chart-bar" style="--height: 40%"></div>
-                <div class="nx-chart-bar" style="--height: 65%"></div>
-                <div class="nx-chart-bar" style="--height: 50%"></div>
-                <div class="nx-chart-bar" style="--height: 85%"></div>
-                <div class="nx-chart-bar" style="--height: 95%"></div>
-                <div class="nx-chart-bar" style="--height: 70%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- SECTION 2: Split View Asymmetric Pinning Section -->
-      <section id="solutions" class="nx-split-section">
-        <!-- Left Static Presentation Node Frame -->
-        <div class="nx-split-left-frame">
-          <div class="nx-sticky-content">
-            <div class="nx-section-index">[ 01 / CAPABILITIES ]</div>
-            <h2 class="nx-section-title">Engineered to bypass localized structural bottlenecks.</h2>
-            <p class="nx-section-desc">
-              As you transition through the operational stack, our unified execution framework continuously redistributes compute volumes across active cluster matrices.
-            </p>
-            <div class="nx-interactive-anchor-group">
-              <a href="#matrix" class="nx-text-link">Explore Data Mesh Protocols &rarr;</a>
-            </div>
-          </div>
+    <section id="termine" class="events-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Unsere Events & Termine</h2>
+          <div class="accent-line"></div>
         </div>
 
-        <!-- Right Dynamic Infinite Progression Cards Track -->
-        <div class="nx-split-right-track">
-          
-          <div class="nx-info-card scroll-reveal-card">
-            <div class="nx-info-card-num">// 01.1</div>
-            <h3 class="nx-info-card-title">Predictive Storage Mesh</h3>
-            <p class="nx-info-card-body">
-              Automated analytical telemetry arrays structuring uncompiled databases into immutable, low-latency target objects optimized for rapid edge retrieval.
-            </p>
-            <div class="nx-info-card-footer">
-              <span class="nx-tech-tag">Asynchronous I/O</span>
-              <span class="nx-tech-tag">MariaDB Cluster</span>
-            </div>
-          </div>
+        <div class="grid">
+          {events.map((event) => (
+            <div class="card">
+              {event.image ? (
+                <img
+                  src={urlFor(event.image).width(800).height(500).url()}
+                  alt={event.title}
+                  class="event-img"
+                />
+              ) : (
+                <div class="event-img-placeholder">
+                  <span>📅 WIRschaft Event</span>
+                </div>
+              )}
 
-          <div class="nx-info-card scroll-reveal-card">
-            <div class="nx-info-card-num">// 01.2</div>
-            <h3 class="nx-info-card-title">Asymmetric Encryption Shield</h3>
-            <p class="nx-info-card-body">
-              Multi-signature cryptographic verifications intercepting localized access requests and executing identity assertion evaluations natively in hardware registers.
-            </p>
-            <div class="nx-info-card-footer">
-              <span class="nx-tech-tag">Zero-Knowledge</span>
-              <span class="nx-tech-tag">Hardware-Level</span>
-            </div>
-          </div>
-
-          <div class="nx-info-card scroll-reveal-card">
-            <div class="nx-info-card-num">// 01.3</div>
-            <h3 class="nx-info-card-title">Dynamic Compute Provisioning</h3>
-            <p class="nx-info-card-body">
-              Intelligent runtime environments tracking pipeline depth metrics and hot-swapping virtual threads across bare-metal server infrastructure clusters seamlessly.
-            </p>
-            <div class="nx-info-card-footer">
-              <span class="nx-tech-tag">Hot-Swap Runtime</span>
-              <span class="nx-tech-tag">Cluster Load Sync</span>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- SECTION 3: Cinema Horizontal Pan Scroller Panel Slider -->
-      <section id="showcase" class="nx-horizontal-scroller-container">
-        <div class="nx-horizontal-sticky-viewport">
-          <div class="nx-horizontal-track-rail">
-            
-            <!-- Horizontal Element Block 0: Structural Label Header -->
-            <div class="nx-horizontal-panel nx-panel-intro">
-              <div class="nx-panel-intro-inner">
-                <div class="nx-section-index">[ 02 / PARADIGMS ]</div>
-                <h2 class="nx-section-title">Designed for Extreme System Volumes.</h2>
-                <p class="nx-section-desc">
-                  Swipe or cycle horizontally through specialized hardware integrations built to withstand massive throughput configurations without visual dropouts.
+              <div class="content">
+                <h2>{event.title}</h2>
+                <div class="date">
+                  📅 {new Date(event.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                </div>
+                <p class="caption">
+                  {event.caption}
                 </p>
-                <div class="nx-scroller-indicator-bar">
-                  <div class="nx-scroller-indicator-progress"></div>
-                </div>
               </div>
             </div>
-
-            <!-- Horizontal Element Block 1: Modular Unit A -->
-            <div class="nx-horizontal-panel">
-              <div class="nx-showcase-card">
-                <div class="nx-showcase-image-mock">
-                  <div class="nx-mock-circuit-lines"></div>
-                  <span class="nx-mock-overlay-code">MOD_CORE_ALPHA</span>
-                </div>
-                <div class="nx-showcase-meta">
-                  <span class="nx-showcase-category">COMPUTE ARCHITECTURE</span>
-                  <h3 class="nx-showcase-name">Quantum Node Matrix V1</h3>
-                  <p class="nx-showcase-summary">Direct processing clusters removing hypervisor conversion layers to establish direct logic board links.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Horizontal Element Block 2: Modular Unit B -->
-            <div class="nx-horizontal-panel">
-              <div class="nx-showcase-card">
-                <div class="nx-showcase-image-mock accent-glow">
-                  <div class="nx-mock-circuit-lines"></div>
-                  <span class="nx-mock-overlay-code">MOD_CORE_BETA</span>
-                </div>
-                <div class="nx-showcase-meta">
-                  <span class="nx-showcase-category">PIPELINE OPTIMIZATION</span>
-                  <h3 class="nx-showcase-name">Elastic Routing Arrays</h3>
-                  <p class="nx-showcase-summary">Configurable pipeline switches utilizing automated optimization engines to clear congestion vectors instantly.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Horizontal Element Block 3: Modular Unit C -->
-            <div class="nx-horizontal-panel">
-              <div class="nx-showcase-card">
-                <div class="nx-showcase-image-mock">
-                  <div class="nx-mock-circuit-lines"></div>
-                  <span class="nx-mock-overlay-code">MOD_CORE_GAMMA</span>
-                </div>
-                <div class="nx-showcase-meta">
-                  <span class="nx-showcase-category">VISUAL ANALYTICS</span>
-                  <h3 class="nx-showcase-name">Unified Command Board</h3>
-                  <p class="nx-showcase-summary">Comprehensive interface panels visually tracking structural microservices across geographic regions.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <!-- SECTION 4: Scaled Metrics Visualization Board Grid -->
-      <section id="analytics" class="nx-analytics-section">
-        <div class="nx-container">
-          <div class="nx-center-header">
-            <div class="nx-section-index">[ 03 / METRICS ]</div>
-            <h2 class="nx-section-title">Verified Structural Performance Diagnostics</h2>
-          </div>
-
-          <div class="nx-grid-matrix-4">
-            
-            <div class="nx-diagnostic-node">
-              <div class="nx-diagnostic-value" data-target="240">240<span class="nx-value-unit">ms</span></div>
-              <div class="nx-diagnostic-label">Global Execution Latency Reductions</div>
-              <p class="nx-diagnostic-detail">Evaluated against cloud-native load balancing environments handling concurrent packet exchanges.</p>
-            </div>
-
-            <div class="nx-diagnostic-node highlighted-node">
-              <div class="nx-diagnostic-value" data-target="12">12<span class="nx-value-unit">x</span></div>
-              <div class="nx-diagnostic-label">Throughput Optimization Gain</div>
-              <p class="nx-diagnostic-detail">Observed when switching storage nodes over to localized asynchronous pipeline protocols.</p>
-            </div>
-
-            <div class="nx-diagnostic-node">
-              <div class="nx-diagnostic-value" data-target="99">99<span class="nx-value-unit">%</span></div>
-              <div class="nx-diagnostic-label">Hardware Thread Allocation</div>
-              <p class="nx-diagnostic-detail">Continuous optimization across bare-metal environments prevents memory stagnation bugs.</p>
-            </div>
-
-            <div class="nx-diagnostic-node">
-              <div class="nx-diagnostic-value" data-target="0">0.00<span class="nx-value-unit">ms</span></div>
-              <div class="nx-diagnostic-label">Mean Core System Recovery Delay</div>
-              <p class="nx-diagnostic-detail">Automated localized recovery mechanisms resolve state changes without dropping connections.</p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      <!-- SECTION 5: Enterprise Portal / Dynamic Masking Scale Footer -->
-      <footer id="contact" class="nx-footer-system">
-        <div class="nx-container nx-footer-cta-container">
-          <div class="nx-footer-mask-box">
-            <h2 class="nx-footer-massive-title">TRANSFORM THE CORE</h2>
-            <p class="nx-footer-lead">
-              Coordinate architecture deployment blueprints with an expert systems technician. Let's maximize structural capacity.
-            </p>
-            <div class="nx-footer-action-row">
-              <button class="nx-btn nx-btn-primary nx-btn-xl">Request Infrastructure Audit</button>
-              <button class="nx-btn nx-btn-outline nx-btn-xl">Connect via Telemetry</button>
-            </div>
-          </div>
+          ))}
         </div>
 
-        <div class="nx-container nx-footer-directory-wrapper">
-          <div class="nx-footer-grid">
-            <div class="nx-footer-brand-column">
-              <div class="nx-brand">
-                <div class="nx-brand-indicator"></div>
-                <span class="nx-brand-firm">NEXIS</span><span class="nx-brand-division">CORE</span>
-              </div>
-              <p class="nx-brand-legal-desc">
-                High-performance foundational software layers providing deterministic cloud computing infrastructures for critical enterprise systems.
-              </p>
-            </div>
-            
-            <div class="nx-footer-links-column">
-              <span class="nx-links-header">Infrastructure</span>
-              <a href="#" class="nx-footer-link">Compute Nodes</a>
-              <a href="#" class="nx-footer-link">Data Mesh Arrays</a>
-              <a href="#" class="nx-footer-link">MariaDB Connectors</a>
-              <a href="#" class="nx-footer-link">Security Hardware</a>
-            </div>
-
-            <div class="nx-footer-links-column">
-              <span class="nx-links-header">Architecture</span>
-              <a href="#" class="nx-footer-link">Whitepapers</a>
-              <a href="#" class="nx-footer-link">Core Benchmarks</a>
-              <a href="#" class="nx-footer-link">System Status logs</a>
-              <a href="#" class="nx-footer-link">Developer Core API</a>
-            </div>
-
-            <div class="nx-footer-links-column">
-              <span class="nx-links-header">Corporate</span>
-              <a href="#" class="nx-footer-link">Operations Directory</a>
-              <a href="#" class="nx-footer-link">Cyber Security Standards</a>
-              <a href="#" class="nx-footer-link">Partnership Ecosystem</a>
-              <a href="#" class="nx-footer-link">Institutional Governance</a>
-            </div>
-          </div>
-
-          <div class="nx-footer-bottom-bar">
-            <div class="nx-copyright">&copy; 2026 NEXIS CORE AG. GLOBAL DISTRIBUTION RIGHTS REGISTERED.</div>
-            <div class="nx-legal-policy-links">
-              <a href="#" class="nx-policy-link">CRYPTOGRAPHIC STATEMENT</a>
-              <a href="#" class="nx-policy-link">PRIVACY PIPELINE</a>
-              <a href="#" class="nx-policy-link">TERMS OF COMPUTE</a>
-            </div>
-          </div>
+        <div class="more-events-wrapper">
+          <a href="/event" class="btn-more">
+            Mehr anzeigen <span class="arrow-right">→</span>
+          </a>
         </div>
-      </footer>
+      </div>
+    </section>
 
-    </main>
-
-    <!-- 
-      ENTERPRISE PLATFORM STYLESHEET (1000+ Lines Design System Architecture Layout Engine)
-    -->
-    <style is:global>
-      /* ---------------------------------------------------------------------
-         SECTION 1: ARCHITECTURE DESIGN TOKENS & SYSTEM VARIABLES
-         --------------------------------------------------------------------- */
-      :root {
-        /* Color System Tokens */
-        --color-zinc-50: #fafafa;
-        --color-zinc-100: #f4f4f5;
-        --color-zinc-200: #e4e4e7;
-        --color-zinc-300: #d4d4d8;
-        --color-zinc-400: #a1a1aa;
-        --color-zinc-500: #71717a;
-        --color-zinc-600: #52525b;
-        --color-zinc-700: #3f3f46;
-        --color-zinc-800: #27272a;
-        --color-zinc-900: #18181b;
-        --color-zinc-950: #09090b;
+    <section class="map-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Hier findest du uns</h2>
+          <div class="accent-line"></div>
+        </div>
+        <p class="map-description">Unsere Treffen finden regelmäßig an wechselnden Orten oder in unserem Hauptstützpunkt statt.</p>
         
-        /* Brand Specific Custom Glass Tone Palette */
-        --color-primary: #FFFE88; /* High Fidelity Accent Yellow */
-        --color-primary-rgb: 255, 254, 136;
-        --color-primary-dark: #e6e56c;
-        --color-accent-dim: rgba(255, 254, 136, 0.15);
-        
-        /* Layout Grid Dimensions Matrices */
-        --max-width-desktop: 1440px;
-        --header-height: 80px;
-        --border-radius-sm: 6px;
-        --border-radius-md: 12px;
-        --border-radius-lg: 24px;
-        --border-radius-full: 9999px;
-        
-        /* Typography Scale Metric Engine */
-        --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        --font-mono: 'JetBrains Mono', monospace;
-        
-        /* Z-Index Stratification Map */
-        --z-index-backdrop: -10;
-        --z-index-base: 1;
-        --z-index-sticky: 20;
-        --z-index-header: 50;
-        --z-index-overlay: 100;
-        
-        /* Hardware Acceleration Easing Presets */
-        --ease-smooth-io: cubic-bezier(0.25, 1, 0.5, 1);
-        --ease-inertial: cubic-bezier(0.16, 1, 0.3, 1);
-        --ease-circ: cubic-bezier(0, 0.55, 0.45, 1);
-        
-        /* Glassmorphic Alpha Composition Elements */
-        --glass-bg: rgba(9, 9, 11, 0.45);
-        --glass-bg-dense: rgba(24, 24, 27, 0.75);
-        --glass-border: rgba(39, 39, 42, 0.4);
-        --glass-border-light: rgba(255, 254, 136, 0.2);
-        --glass-blur: 16px;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 2: NATIVE NORMALIZATION CSS RESET
-         --------------------------------------------------------------------- */
-      *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      .core-system-html {
-        font-size: 16px;
-        scroll-behavior: auto !important; /* Managed by Lenis Engine */
-        background-color: var(--color-zinc-950);
-        color: var(--color-zinc-50);
-        text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%;
-        overflow-x: hidden;
-      }
-
-      .core-system-body {
-        font-family: var(--font-sans);
-        background-color: var(--color-zinc-950);
-        color: var(--color-zinc-100);
-        min-height: 100vh;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        overflow-x: hidden;
-        width: 100%;
-      }
-
-      /* Lenis Core Integration Standard Rules Override Layouts */
-      html.lenis, html.lenis body {
-        height: auto;
-      }
-      .lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-      .lenis-smooth [data-lenis-prevent] {
-        scroll-navigation: contain;
-      }
-      .lenis-stopped {
-        overflow: hidden;
-      }
-      .lenis-scrolling iframe {
-        pointer-events: none;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 3: CORE TYPOGRAPHY UTILITY SUBSYSTEM
-         --------------------------------------------------------------------- */
-      h1, h2, h3, h4, h5, h6 {
-        font-family: var(--font-sans);
-        color: var(--color-zinc-50);
-        font-weight: 700;
-        line-height: 1.15;
-        letter-spacing: -0.02em;
-      }
-
-      p {
-        line-height: 1.6;
-        color: var(--color-zinc-400);
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      ul, ol {
-        list-style: none;
-      }
-
-      img, svg, video {
-        display: block;
-        max-width: 100%;
-        height: auto;
-      }
-
-      button, input, select, textarea {
-        font-family: inherit;
-        font-size: inherit;
-        color: inherit;
-        background: none;
-        border: none;
-        outline: none;
-      }
-
-      /* Custom Selection Engine Style */
-      ::-webkit-selection {
-        background-color: var(--color-primary);
-        color: var(--color-zinc-950);
-      }
-      ::selection {
-        background-color: var(--color-primary);
-        color: var(--color-zinc-950);
-      }
-
-      /* Custom Scrollbar Map Configs for Non-supported Lenis Edge Environments */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: var(--color-zinc-950);
-      }
-      ::-webkit-scrollbar-thumb {
-        background: var(--color-zinc-800);
-        border-radius: var(--border-radius-full);
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-zinc-700);
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 4: FLEX & GRID STRUCTURAL LAYOUT ENGINE
-         --------------------------------------------------------------------- */
-      .nx-container {
-        width: 100%;
-        max-width: var(--max-width-desktop);
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-
-      .nx-scroll-wrapper {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-      }
-
-      .nx-grid-matrix-2 {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 32px;
-      }
-
-      .nx-grid-matrix-3 {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 32px;
-      }
-
-      .nx-grid-matrix-4 {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 24px;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 5: ENTERPRISE UI BUTTONS & INTERACTIVE COMPONENT LAYOUTS
-         --------------------------------------------------------------------- */
-      .nx-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-sans);
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        border-radius: var(--border-radius-full);
-        transition: all 0.3s var(--ease-smooth-io);
-        cursor: pointer;
-        white-space: nowrap;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .nx-btn-sm {
-        padding: 10px 20px;
-        font-size: 0.8125rem;
-      }
-
-      .nx-btn-md {
-        padding: 14px 28px;
-        font-size: 0.9375rem;
-      }
-
-      .nx-btn-lg {
-        padding: 18px 36px;
-        font-size: 1rem;
-      }
-
-      .nx-btn-xl {
-        padding: 22px 44px;
-        font-size: 1.0625rem;
-      }
-
-      .nx-btn-primary {
-        background-color: var(--color-zinc-50);
-        color: var(--color-zinc-950);
-      }
-      .nx-btn-primary:hover {
-        background-color: var(--color-primary);
-        box-shadow: 0 0 30px rgba(255, 254, 136, 0.3);
-        transform: translateY(-2px);
-      }
-      .nx-btn-primary:active {
-        transform: translateY(0);
-      }
-
-      .nx-btn-secondary {
-        background-color: var(--color-zinc-900);
-        color: var(--color-zinc-200);
-        border: 1px solid var(--color-zinc-800);
-      }
-      .nx-btn-secondary:hover {
-        background-color: var(--color-zinc-800);
-        border-color: var(--color-zinc-700);
-        color: var(--color-zinc-50);
-        transform: translateY(-2px);
-      }
-
-      .nx-btn-outline {
-        background-color: transparent;
-        color: var(--color-zinc-50);
-        border: 1px solid var(--color-zinc-800);
-      }
-      .nx-btn-outline:hover {
-        border-color: var(--color-primary);
-        background-color: rgba(255, 254, 136, 0.02);
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 6: FIXED GLASSMORPHIC HEADER COMPONENT
-         --------------------------------------------------------------------- */
-      .nx-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: var(--header-height);
-        background-color: var(--glass-bg);
-        backdrop-filter: blur(var(--glass-blur));
-        -webkit-backdrop-filter: blur(var(--glass-blur));
-        border-b: 1px solid var(--glass-border);
-        z-index: var(--z-index-header);
-        transition: background-color 0.4s var(--ease-smooth-io);
-        will-change: background-color;
-      }
-
-      .nx-header-container {
-        max-width: var(--max-width-desktop);
-        height: 100%;
-        margin: 0 auto;
-        padding: 0 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .nx-brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 1.1875rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-      }
-
-      .nx-brand-indicator {
-        width: 8px;
-        height: 8px;
-        background-color: var(--color-primary);
-        border-radius: var(--border-radius-full);
-        box-shadow: 0 0 10px var(--color-primary);
-      }
-
-      .nx-brand-firm {
-        color: var(--color-zinc-50);
-      }
-
-      .nx-brand-division {
-        color: var(--color-zinc-500);
-        font-weight: 300;
-        margin-left: 2px;
-      }
-
-      .nx-nav-list {
-        display: flex;
-        align-items: center;
-        gap: 36px;
-      }
-
-      .nx-nav-link {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: var(--color-zinc-400);
-        transition: color 0.3s var(--ease-smooth-io);
-        position: relative;
-        padding: 8px 0;
-      }
-      .nx-nav-link:hover {
-        color: var(--color-zinc-50);
-      }
-      .nx-nav-link::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: var(--color-primary);
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s var(--ease-smooth-io);
-      }
-      .nx-nav-link:hover::after {
-        transform: scaleX(1);
-        transform-origin: left;
-      }
-
-      .nx-header-actions {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 7: CINEMATIC REVEAL HERO STYLING SPECIFICATION
-         --------------------------------------------------------------------- */
-      .nx-hero-section {
-        position: relative;
-        min-h: 100vh;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding-top: calc(var(--header-height) + 60px);
-        padding-bottom: 80px;
-        overflow: hidden;
-      }
-
-      /* Hardware Accelerated Performance Grid Mesh Layer */
-      .nx-mesh-grid {
-        position: absolute;
-        inset: 0;
-        z-index: var(--z-index-backdrop);
-        display: flex;
-        justify-content: space-between;
-        padding: 0 8%;
-        pointer-events: none;
-        opacity: 0.35;
-        mask-image: radial-gradient(circle 600px at 50% 50%, #000 40%, transparent 100%);
-        -webkit-mask-image: radial-gradient(circle 600px at 50% 50%, #000 40%, transparent 100%);
-      }
-
-      .nx-mesh-line-v {
-        width: 1px;
-        height: 100%;
-        background-linear-gradient: to bottom, var(--color-zinc-900), var(--color-zinc-800), var(--color-zinc-900);
-        opacity: 0.8;
-      }
-
-      .nx-mesh-glow {
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(255, 254, 136, 0.06) 0%, transparent 70%);
-        filter: blur(40px);
-        pointer-events: none;
-      }
-
-      .nx-hero-container {
-        text-align: center;
-        position: relative;
-        z-index: var(--z-index-base);
-        max-width: 960px;
-      }
-
-      .nx-badge-wrapper {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 28px;
-      }
-
-      .nx-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 14px;
-        background-color: rgba(24, 24, 27, 0.6);
-        border: 1px solid var(--color-zinc-800);
-        border-radius: var(--border-radius-full);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-      }
-
-      .nx-badge-dot {
-        width: 6px;
-        height: 6px;
-        background-color: var(--color-primary);
-        border-radius: var(--border-radius-full);
-        box-shadow: 0 0 8px var(--color-primary);
-      }
-
-      .nx-badge-text {
-        font-size: 0.75rem;
-        font-family: var(--font-mono);
-        font-weight: 500;
-        color: var(--color-zinc-400);
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-      }
-
-      .nx-hero-title {
-        font-size: clamp(2.5rem, 6vw, 5.25rem);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
-        margin-bottom: 28px;
-      }
-
-      .text-gradient {
-        background-image: linear-gradient(to right, var(--color-zinc-50), var(--color-primary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .nx-hero-lead {
-        font-size: clamp(1rem, 2vw, 1.3125rem);
-        font-weight: 300;
-        max-width: 720px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 40px;
-        color: var(--color-zinc-400);
-      }
-
-      .nx-hero-cta-group {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-      }
-
-      /* Hardware Architecture Display Card Panel */
-      .nx-hero-hardware-wrapper {
-        margin-top: 80px;
-        max-width: 1040px;
-        width: 100%;
-        perspective: 1000px;
-      }
-
-      .nx-hardware-card {
-        position: relative;
-        width: 100%;
-        background-color: rgba(24, 24, 27, 0.4);
-        border: 1px solid var(--color-zinc-800);
-        border-radius: var(--border-radius-lg);
-        padding: 32px;
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        overflow: hidden;
-        transform-style: preserve-3d;
-        will-change: transform, opacity;
-      }
-
-      .nx-card-glass-glow {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(255,254,136,0.03) 0%, transparent 50%);
-        pointer-events: none;
-      }
-
-      .nx-hardware-card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid rgba(39, 39, 42, 0.6);
-        padding-bottom: 20px;
-        margin-bottom: 24px;
-      }
-
-      .nx-hardware-status {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .nx-status-pulse {
-        width: 6px;
-        height: 6px;
-        background-color: #4ade80;
-        border-radius: var(--border-radius-full);
-        position: relative;
-      }
-      .nx-status-pulse::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: #4ade80;
-        border-radius: var(--border-radius-full);
-        animation: pulse-ring 2s infinite var(--ease-smooth-io);
-      }
-
-      .nx-status-label, .nx-hardware-code {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        color: var(--color-zinc-500);
-        letter-spacing: 0.05em;
-      }
-
-      .nx-hardware-card-body {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 32px;
-      }
-
-      .nx-metric-block {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .nx-metric-value {
-        font-size: 3.5rem;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        color: var(--color-zinc-50);
-        font-family: var(--font-sans);
-      }
-
-      .nx-metric-title {
-        font-size: 0.8125rem;
-        font-family: var(--font-mono);
-        color: var(--color-zinc-400);
-        text-transform: uppercase;
-      }
-
-      .nx-metric-chart-mock {
-        display: flex;
-        align-items: flex-end;
-        gap: 8px;
-        height: 80px;
-        padding-bottom: 4px;
-      }
-
-      .nx-chart-bar {
-        width: 6px;
-        height: var(--height, 20%);
-        background-color: var(--color-zinc-800);
-        border-radius: var(--border-radius-full);
-        transition: background-color 0.3s ease;
-      }
-      .nx-hardware-card:hover .nx-chart-bar {
-        background-color: var(--color-primary);
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 8: ASYMMETRIC SPLIT PINNING COMPONENT LAYOUT
-         --------------------------------------------------------------------- */
-      .nx-split-section {
-        position: relative;
-        width: 100%;
-        display: flex;
-        background-color: var(--color-zinc-950);
-        border-top: 1px solid var(--color-zinc-900);
-        border-bottom: 1px solid var(--color-zinc-900);
-      }
-
-      .nx-split-left-frame {
-        width: 50%;
-        padding: 0 6%;
-        background-color: var(--color-zinc-950);
-      }
-
-      .nx-sticky-content {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        max-width: 460px;
-      }
-
-      .nx-section-index {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: var(--color-primary);
-        letter-spacing: 0.1em;
-        margin-bottom: 20px;
-      }
-
-      .nx-section-title {
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 1.15;
-        margin-bottom: 24px;
-        letter-spacing: -0.02em;
-      }
-
-      .nx-section-desc {
-        font-size: 1.0625rem;
-        font-weight: 300;
-        color: var(--color-zinc-400);
-        margin-bottom: 36px;
-      }
-
-      .nx-text-link {
-        font-size: 0.9375rem;
-        font-weight: 600;
-        color: var(--color-zinc-50);
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: color 0.3s ease;
-      }
-      .nx-text-link:hover {
-        color: var(--color-primary);
-      }
-
-      .nx-split-right-track {
-        width: 50%;
-        padding: 120px 4% 120px 4%;
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-        background-color: rgba(24, 24, 27, 0.2);
-        border-left: 1px solid var(--color-zinc-900);
-      }
-
-      /* Optimized Stacked Info Cards */
-      .nx-info-card {
-        background-color: rgba(24, 24, 27, 0.5);
-        border: 1px solid var(--color-zinc-900);
-        border-radius: var(--border-radius-md);
-        padding: 48px;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        transition: all 0.4s var(--ease-smooth-io);
-        will-change: transform, border-color, box-shadow;
-      }
-      .nx-info-card:hover {
-        border-color: rgba(255, 254, 136, 0.2);
-        background-color: rgba(24, 24, 27, 0.7);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        transform: translateY(-4px);
-      }
-
-      .nx-info-card-num {
-        font-family: var(--font-mono);
-        font-size: 0.8125rem;
-        color: var(--color-zinc-500);
-        margin-bottom: 24px;
-      }
-
-      .nx-info-card-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 16px;
-        color: var(--color-zinc-100);
-      }
-
-      .nx-info-card-body {
-        font-size: 0.9375rem;
-        font-weight: 300;
-        color: var(--color-zinc-400);
-        margin-bottom: 32px;
-        line-height: 1.6;
-      }
-
-      .nx-info-card-footer {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-
-      .nx-tech-tag {
-        font-family: var(--font-mono);
-        font-size: 0.6875rem;
-        color: var(--color-zinc-400);
-        padding: 4px 10px;
-        background-color: var(--color-zinc-900);
-        border: 1px solid var(--color-zinc-800);
-        border-radius: 4px;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 9: HORIZONTAL SCROLLER MATRIX COMPONENT
-         --------------------------------------------------------------------- */
-      .nx-horizontal-scroller-container {
-        position: relative;
-        width: 100%;
-        background-color: var(--color-zinc-950);
-        overflow: hidden;
-      }
-
-      .nx-horizontal-sticky-viewport {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-      }
-
-      .nx-horizontal-track-rail {
-        display: flex;
-        align-items: center;
-        padding-left: 8%;
-        padding-right: 12%;
-        will-change: transform;
-      }
-
-      .nx-horizontal-panel {
-        width: 520px;
-        shrink: 0;
-        flex-shrink: 0;
-        margin-right: 64px;
-      }
-
-      .nx-panel-intro {
-        width: 440px;
-        margin-right: 96px;
-      }
-
-      .nx-panel-intro-inner {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .nx-scroller-indicator-bar {
-        width: 100%;
-        height: 2px;
-        background-color: var(--color-zinc-900);
-        margin-top: 40px;
-        border-radius: var(--border-radius-full);
-        overflow: hidden;
-      }
-
-      .nx-scroller-indicator-progress {
-        width: 100%;
-        height: 100%;
-        background-color: var(--color-primary);
-        transform: scaleX(0.1);
-        transform-origin: left;
-        will-change: transform;
-      }
-
-      /* Panoramic Display Showcase Card */
-      .nx-showcase-card {
-        background-color: rgba(24, 24, 27, 0.4);
-        border: 1px solid var(--color-zinc-800);
-        border-radius: var(--border-radius-lg);
-        padding: 24px;
-        transition: border-color 0.4s var(--ease-smooth-io);
-      }
-      .nx-showcase-card:hover {
-        border-color: rgba(255, 254, 136, 0.3);
-      }
-
-      .nx-showcase-image-mock {
-        width: 100%;
-        height: 280px;
-        background-color: var(--color-zinc-900);
-        border-radius: var(--border-radius-md);
-        margin-bottom: 24px;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(39, 39, 42, 0.4);
-      }
-
-      .nx-showcase-image-mock.accent-glow::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at 70% 30%, rgba(255, 254, 136, 0.08) 0%, transparent 60%);
-      }
-
-      .nx-mock-circuit-lines {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(rgba(39, 39, 42, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(39, 39, 42, 0.15) 1px, transparent 1px);
-        background-size: 20px 20px;
-      }
-
-      .nx-mock-overlay-code {
-        position: absolute;
-        bottom: 16px;
-        left: 16px;
-        font-family: var(--font-mono);
-        font-size: 0.6875rem;
-        color: var(--color-zinc-600);
-        letter-spacing: 0.1em;
-      }
-
-      .nx-showcase-meta {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .nx-showcase-category {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        color: var(--color-zinc-500);
-        letter-spacing: 0.05em;
-        margin-bottom: 8px;
-      }
-
-      .nx-showcase-name {
-        font-size: 1.375rem;
-        font-weight: 600;
-        margin-bottom: 12px;
-      }
-
-      .nx-showcase-summary {
-        font-size: 0.875rem;
-        font-weight: 300;
-        color: var(--color-zinc-400);
-        line-height: 1.5;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 10: METRICS CORE ANALYTICS BOARD PANEL
-         --------------------------------------------------------------------- */
-      .nx-analytics-section {
-        position: relative;
-        width: 100%;
-        padding: 160px 0;
-        background-color: var(--color-zinc-950);
-        border-top: 1px solid var(--color-zinc-900);
-      }
-
-      .nx-center-header {
-        text-align: center;
-        max-width: 600px;
-        margin: 0 auto 80px auto;
-      }
-
-      .nx-diagnostic-node {
-        background-color: var(--color-zinc-950);
-        border: 1px solid var(--color-zinc-900);
-        border-radius: var(--border-radius-md);
-        padding: 40px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        transition: border-color 0.3s ease;
-      }
-      .nx-diagnostic-node:hover {
-        border-color: var(--color-zinc-800);
-      }
-
-      .nx-diagnostic-node.highlighted-node {
-        border-color: rgba(255, 254, 136, 0.15);
-        background-linear-gradient: to bottom right, rgba(24, 24, 27, 0.3), transparent;
-      }
-
-      .nx-diagnostic-value {
-        font-size: 3.5rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        color: var(--color-zinc-50);
-        margin-bottom: 16px;
-        display: flex;
-        align-items: baseline;
-      }
-
-      .nx-diagnostic-node.highlighted-node .nx-diagnostic-value {
-        color: var(--color-primary);
-      }
-
-      .nx-value-unit {
-        font-size: 1.25rem;
-        font-weight: 400;
-        color: var(--color-zinc-500);
-        margin-left: 4px;
-      }
-
-      .nx-diagnostic-label {
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--color-zinc-200);
-        margin-bottom: 12px;
-      }
-
-      .nx-diagnostic-detail {
-        font-size: 0.875rem;
-        font-weight: 300;
-        color: var(--color-zinc-500);
-        line-height: 1.5;
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 11: PORTAL CTA MASK & ENTERPRISE DIRECTORY FOOTER
-         --------------------------------------------------------------------- */
-      .nx-footer-system {
-        position: relative;
-        width: 100%;
-        background-color: var(--color-zinc-950);
-        border-top: 1px solid var(--color-zinc-900);
-      }
-
-      .nx-footer-cta-container {
-        padding-top: 120px;
-        padding-bottom: 120px;
-      }
-
-      .nx-footer-mask-box {
-        background-color: var(--color-zinc-900);
-        border: 1px solid var(--color-zinc-800);
-        border-radius: var(--border-radius-lg);
-        padding: 80px 40px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        will-change: transform, opacity;
-      }
-
-      .nx-footer-massive-title {
-        font-size: clamp(2.5rem, 7vw, 5.5rem);
-        font-weight: 700;
-        letter-spacing: -0.04em;
-        line-height: 1;
-        margin-bottom: 24px;
-        color: var(--color-zinc-50);
-      }
-
-      .nx-footer-lead {
-        font-size: 1.1875rem;
-        font-weight: 300;
-        color: var(--color-zinc-400);
-        max-width: 580px;
-        margin: 0 auto 40px auto;
-      }
-
-      .nx-footer-action-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-
-      .nx-footer-directory-wrapper {
-        border-top: 1px solid var(--color-zinc-900);
-        padding-top: 80px;
-        padding-bottom: 40px;
-      }
-
-      .nx-footer-grid {
-        display: grid;
-        grid-template-columns: 2fr repeat(3, 1fr);
-        gap: 48px;
-        margin-bottom: 80px;
-      }
-
-      .nx-brand-legal-desc {
-        font-size: 0.875rem;
-        font-weight: 300;
-        color: var(--color-zinc-500);
-        margin-top: 20px;
-        max-width: 300px;
-        line-height: 1.6;
-      }
-
-      .nx-footer-links-column {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-
-      .nx-links-header {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--color-zinc-400);
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        margin-bottom: 8px;
-      }
-
-      .nx-footer-link {
-        font-size: 0.875rem;
-        color: var(--color-zinc-500);
-        transition: color 0.2s ease;
-      }
-      .nx-footer-link:hover {
-        color: var(--color-primary);
-      }
-
-      .nx-footer-bottom-bar {
-        border-top: 1px solid var(--color-zinc-900);
-        padding-top: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 20px;
-        font-family: var(--font-mono);
-        font-size: 0.6875rem;
-        color: var(--color-zinc-600);
-        letter-spacing: 0.02em;
-      }
-
-      .nx-legal-policy-links {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-      }
-
-      .nx-policy-link {
-        transition: color 0.2s ease;
-      }
-      .nx-policy-link:hover {
-        color: var(--color-zinc-400);
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 12: RESPONSIVE BREAKPOINT GRID LAYOUT OVERRIDES
-         --------------------------------------------------------------------- */
-      @media (max-width: 1024px) {
-        .nx-grid-matrix-4 {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 24px;
-        }
-        
-        .nx-footer-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 40px;
-        }
-        
-        .nx-split-section {
-          flex-direction: column;
-        }
-        
-        .nx-split-left-frame {
-          width: 100%;
-          padding: 80px 24px 40px 24px;
-        }
-        
-        .nx-sticky-content {
-          position: relative;
-          top: auto;
-          height: auto;
-          max-width: 100%;
-        }
-        
-        .nx-split-right-track {
-          width: 100%;
-          border-left: none;
-          padding: 40px 24px 80px 24px;
-        }
-      }
-
-      @media (max-width: 768px) {
-        .hidden-mobile {
-          display: none !important;
-        }
-        
-        .nx-nav {
-          display: none; /* Hide top links on phone layouts for clean dashboard space */
-        }
-        
-        .nx-grid-matrix-3 {
-          grid-template-columns: 1fr;
-        }
-        
-        .nx-grid-matrix-2 {
-          grid-template-columns: 1fr;
-        }
-        
-        .nx-grid-matrix-4 {
-          grid-template-columns: 1fr;
-        }
-        
-        .nx-hero-section {
-          padding-top: calc(var(--header-height) + 40px);
-        }
-        
-        .nx-hardware-card {
-          padding: 20px;
-        }
-        
-        .nx-metric-value {
-          font-size: 2.5rem;
-        }
-        
-        .nx-metric-chart-mock {
-          display: none;
-        }
-        
-        .nx-footer-grid {
-          grid-template-columns: 1fr;
-        }
-        
-        .nx-footer-bottom-bar {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        
-        .nx-horizontal-panel {
-          width: 320px;
-          margin-right: 32px;
-        }
-        
-        .nx-panel-intro {
-          width: 280px;
-          margin-right: 48px;
-        }
-        
-        .nx-showcase-image-mock {
-          height: 180px;
-        }
-      }
-
-      /* ---------------------------------------------------------------------
-         SECTION 13: KEYFRAME TRANSITIONS & BACKEND ENGINE SIMULATIONS
-         --------------------------------------------------------------------- */
-      @keyframes pulse-ring {
-        0% {
-          transform: scale(0.95);
-          opacity: 0.5;
-        }
-        50% {
-          transform: scale(2.5);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(0.95);
-          opacity: 0;
-        }
-      }
-    </style>
-
-    <!-- 
-      SECTION 14: ANIMATION CODES & EXTERNAL PHYSICS SMOOTH SCROLL INTEGRATION
-    -->
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script is:inline src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-
-    <script is:inline>
-      // Global Orchestration Initialization Subroutine
-      document.addEventListener("DOMContentLoaded", () => {
-        
-        // 1. Initialize Lenis Inertial Physics Core Engine
-        const lenis = new Lenis({
-          duration: 1.4,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // High fidelity log inertia
-          orientation: 'vertical',
-          gestureOrientation: 'vertical',
-          smoothWheel: true,
-          wheelMultiplier: 1.05,
-          touchMultiplier: 1.5,
-          infinite: false,
-        });
-
-        // 2. Continuous Synchronization between Lenis Pipeline and GSAP ScrollTrigger
-        lenis.on('scroll', ScrollTrigger.update);
-
-        gsap.ticker.add((time) => {
-          lenis.raf(time * 1000);
-        });
-
-        gsap.ticker.lagSmoothing(0);
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 3. Hero Component Structural Convergence Transitions
-        const tlHero = gsap.timeline({
-          scrollTrigger: {
-            trigger: "#hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-          }
-        });
-
-        tlHero.to(".hero-fade-in", {
-          y: -60,
-          opacity: 0,
-          stagger: 0.05,
-          ease: "none"
-        }, 0);
-
-        tlHero.to(".hero-card-trigger", {
-          scale: 0.90,
-          opacity: 0.1,
-          y: -100,
-          borderColor: "rgba(255, 254, 136, 0)",
-          ease: "none"
-        }, 0);
-
-        // 4. Split Screen Cards Grid Intersect Animation Arrays
-        if (window.innerWidth > 1024) {
-          const cards = document.querySelectorAll(".scroll-reveal-card");
-          cards.forEach((card, idx) => {
-            gsap.fromTo(card, 
-              { y: 100, opacity: 0, scale: 0.96 },
-              {
-                y: 0,
-                opacity: 1,
-                scale: 1,
-                duration: 0.6,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: card,
-                  start: "top 90%",
-                  toggleActions: "play none none reverse"
-                }
-              }
-            );
-          });
-        }
-
-        // 5. Cinema Panoramic Horizontal Scroll Track Assembly
-        const trackRail = document.querySelector(".nx-horizontal-track-rail");
-        if (trackRail) {
-          gsap.to(trackRail, {
-            x: () => -(trackRail.scrollWidth - window.innerWidth + (window.innerWidth * 0.12)),
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".nx-horizontal-scroller-container",
-              pin: true,
-              scrub: 1,
-              start: "top top",
-              end: () => `+=${trackRail.scrollWidth}`,
-              invalidateOnRefresh: true,
-            }
-          });
-
-          // Horizontal Dynamic Index Loading Line Bar Progression
-          gsap.fromTo(".nx-scroller-indicator-progress", 
-            { scaleX: 0.05 },
-            {
-              scaleX: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".nx-horizontal-scroller-container",
-                start: "top top",
-                end: () => `+=${trackRail.scrollWidth}`,
-                scrub: true
-              }
-            }
-          );
-        }
-
-        // 6. Live Dashboard Numerical Rolling Counters Loop System
-        const metricNodes = document.querySelectorAll(".nx-diagnostic-value");
-        metricNodes.forEach(node => {
-          const targetValue = parseFloat(node.getAttribute("data-target"));
-          const unitSpan = node.querySelector(".nx-value-unit")?.outerHTML || "";
-          
-          let counterObj = { value: 0 };
-          
-          gsap.to(counterObj, {
-            value: targetValue,
-            duration: 2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: node,
-              start: "top 85%",
-              toggleActions: "play none none none"
-            },
-            onUpdate: () => {
-              if (Number.isInteger(targetValue)) {
-                node.innerHTML = Math.floor(counterObj.value) + unitSpan;
-              } else {
-                node.innerHTML = counterObj.value.toFixed(2) + unitSpan;
-              }
-            }
-          });
-        });
-
-        // 7. Footer Spatial Compression Scale Up Effect
-        gsap.fromTo(".nx-footer-mask-box", 
-          { scale: 0.92, opacity: 0.4 },
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: "#contact",
-              start: "top 80%",
-              end: "top 20%",
-              scrub: true
-            }
-          }
-        );
-
-      });
-    </script>
-  </body>
+        <div id="map"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>&copy; {new Date().getFullYear()} WIRschaft. Alle Rechte vorbehalten.</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <script>
+    // --- LOCATION HIER EINSTELLEN ---
+    // Breitengrad (Lat) und Längengrad (Lng) für deinen Standort (Beispiel: Penzberg)
+    const latitude = 47.7505;
+    const longitude = 11.3743;
+    const zoomLevel = 15;
+
+    // Karte initialisieren
+    // @ts-ignore (Verhindert TypeScript-Warnungen in Astro für globale Leaflet-Variable)
+    const map = L.map('map').setView([latitude, longitude], zoomLevel);
+
+    // OpenStreetMap Kartenkacheln laden
+    // @ts-ignore
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende'
+    }).addTo(map);
+
+    // Pin/Marker hinzufügen
+    // @ts-ignore
+    L.marker([latitude, longitude]).addTo(map)
+      .bindPopup('<b>WIRschaft Treffpunkt</b><br>Hier kommen wir zusammen.')
+      .openPopup();
+  </script>
+</body>
 </html>
+
+<style>
+  :root {
+    --primary-yellow: #FFFE88;
+    --primary-yellow-hover: #fcf960;
+    --dark-text: #222222;
+    --light-gray: #f9f9f9;
+    --border-color: #eaeaea;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--dark-text);
+    background-color: #ffffff;
+    padding-top: 70px; /* Platz für fixierten Header */
+    scroll-behavior: smooth;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  section {
+    padding: 80px 0;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .accent-line {
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-yellow);
+    border-radius: 2px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background-color: var(--primary-yellow);
+    color: var(--dark-text);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--primary-yellow-hover);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background-color: var(--light-gray);
+    color: var(--dark-text);
+    border: 1px solid var(--border-color);
+  }
+
+  .btn-secondary:hover {
+    background-color: #eee;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #fffdec 100%);
+  }
+
+  .hero-bg-accent {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background-color: var(--primary-yellow);
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.4;
+    z-index: 1;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .badge {
+    background: var(--primary-yellow);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+    line-height: 1.15;
+    margin: 20px 0;
+  }
+
+  .hero-content p {
+    font-size: 1.15rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+  }
+
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .image-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    z-index: 2;
+  }
+
+  .image-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .image-card-deco {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-yellow);
+    bottom: -15px;
+    right: -15px;
+    border-radius: 16px;
+    z-index: 1;
+  }
+
+  /* Info Section */
+  .info-section {
+    background-color: var(--light-gray);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .info-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+    border-top: 4px solid var(--primary-yellow);
+  }
+
+  /* Event Section Design-Optimierungen */
+  .events-section {
+    background-color: #ffffff;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 30px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+  }
+
+  .event-img, .event-img-placeholder {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .event-img-placeholder {
+    background-color: #fffdec;
+    border-bottom: 2px solid var(--primary-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #666;
+  }
+
+  .card .content {
+    padding: 24px;
+  }
+
+  .card h2 {
+    font-size: 1.4rem;
+    margin: 0 0 12px 0;
+  }
+
+  .date {
+    font-size: 0.9rem;
+    color: #666;
+    background-color: var(--light-gray);
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .caption {
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .more-events-wrapper {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .btn-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--dark-text);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s ease;
+  }
+
+  .btn-more:hover {
+    background: #000;
+  }
+
+  .arrow-right {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-more:hover .arrow-right {
+    transform: translateX(4px);
+  }
+
+  /* OpenStreetMap Map Styles */
+  .map-description {
+    margin-bottom: 24px;
+    color: #555;
+  }
+
+  #map {
+    width: 100%;
+    height: 450px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 4px solid white;
+    z-index: 1; /* Verhindert Konflikte mit dem Header */
+  }
+
+  /* Footer */
+  .main-footer {
+    text-align: center;
+    padding: 40px 0;
+    background-color: var(--dark-text);
+    color: #888;
+    font-size: 0.9rem;
+  }
+
+  /* Mobile Anpassungen */
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    
+    .hero-bg-accent {
+      width: 250px;
+      height: 250px;
+    }
+
+    .hero-content h1 {
+      font-size: 2.2rem;
+    }
+
+    .hero-actions {
+      justify-content: center;
+    }
+
+    .hero-visual {
+      order: -1; /* Bild rückt mobil nach oben */
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    #map {
+      height: 300px;
+    }
+  }
+</style>
