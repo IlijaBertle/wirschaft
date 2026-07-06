@@ -1,0 +1,23 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <Fragment slot="title">Datenschutzerklärung</Fragment>
+
+  <section class="card">
+    <h2>Datenschutz</h2>
+    <p>Wir verarbeiten personenbezogene Daten nur, wenn dies für die Bereitstellung unserer Dienste erforderlich ist. Dazu zählen Kontaktanfragen und technische Informationen.</p>
+    <p>Sie haben jederzeit das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten.</p>
+  </section>
+</Layout>
+
+<style>
+  .card {
+    background: white;
+    border-radius: 1.2rem;
+    padding: 1.5rem;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    line-height: 1.7;
+  }
+</style>

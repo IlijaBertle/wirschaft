@@ -1,4 +1,5 @@
 ---
+import Layout from "../layouts/Layout.astro";
 import { client, urlFor } from "../lib/sanity";
 
 interface Event {
@@ -20,122 +21,81 @@ const events = await client.fetch<Event[]>(`
 `);
 ---
 
-<html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <title>Events</title>
+<Layout>
+  <Fragment slot="title">Unsere Events</Fragment>
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+  <div class="container">
+    <div class="grid">
+      {events.map((event) => (
+        <article class="card">
+          {event.image && (
+            <img
+              src={urlFor(event.image).width(800).height(500).url()}
+              alt={event.title}
+            />
+          )}
 
-    body{
-      font-family:system-ui,sans-serif;
-      background:#f5f6fa;
-      color:#222;
-    }
+          <div class="content">
+            <h2>{event.title}</h2>
+            <div class="date">📅 {new Date(event.date).toLocaleDateString("de-DE")}</div>
+            <p class="caption">{event.caption}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>
 
-    .container{
-      width:min(1200px,92%);
-      margin:auto;
-      padding:50px 0;
-    }
+<style>
+  .container {
+    width: 100%;
+  }
 
-    h1{
-      font-size:3rem;
-      margin-bottom:40px;
-      text-align:center;
-    }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:30px;
-    }
+  .card {
+    background: white;
+    border-radius: 1.2rem;
+    overflow: hidden;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+  }
 
-    .card{
-      background:white;
-      border-radius:18px;
-      overflow:hidden;
-      box-shadow:0 10px 25px rgba(0,0,0,.08);
-      transition:.25s;
-    }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.12);
+  }
 
-    .card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 20px 40px rgba(0,0,0,.15);
-    }
+  img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
 
-    img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-      display:block;
-    }
+  .content {
+    padding: 1.25rem;
+  }
 
-    .content{
-      padding:22px;
-    }
+  h2 {
+    font-size: 1.3rem;
+    margin: 0 0 0.6rem;
+    color: #c62828;
+  }
 
-    h2{
-      font-size:1.4rem;
-      margin-bottom:10px;
-    }
+  .date {
+    color: #2e7d32;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
 
-    .date{
-      color:#0a84ff;
-      font-weight:bold;
-      margin-bottom:15px;
-    }
-
-    .caption{
-      color:#666;
-      line-height:1.6;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>Unsere Events</h1>
-
-<div class="grid">
-
-{events.map((event)=>(
-<div class="card">
-
-{event.image && (
-<img
-src={urlFor(event.image).width(800).height(500).url()}
-alt={event.title}
-/>
-)}
-
-<div class="content">
-
-<h2>{event.title}</h2>
-
-<div class="date">
-📅 {new Date(event.date).toLocaleDateString("de-DE")}
-</div>
-
-<p class="caption">
-{event.caption}
-</p>
-
-</div>
-
-</div>
-))}
-
-</div>
-
-</div>
-
-</body>
-</html>
+  .caption {
+    color: #5b6472;
+    line-height: 1.6;
+    margin: 0;
+  }
+</style>

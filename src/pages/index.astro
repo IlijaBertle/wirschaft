@@ -1,506 +1,394 @@
 ---
-import Header from '../components/Header.astro';
-
-// Beispielhafte Event-Daten passend zu deiner Struktur
-const events = [
-  {
-    title: "Netzwerktreffen AG Zukunft",
-    date: "2026-07-15T19:00:00",
-    caption: "Gemeinsame Ausarbeitung unserer neuen Visionen und Jahresthemen im Hauptsaal.",
-    image: null // Setze hier ein Sanity-Bildobjekt ein, falls vorhanden
-  },
-  {
-    title: "Kreativ-Workshop: Wie alles begann",
-    date: "2026-08-02T14:30:00",
-    caption: "Ein interaktiver Nachmittag über die Entstehungsgeschichte unserer Gemeinschaft.",
-    image: null
-  }
-];
-
-// Sanity URL-Builder Platzhalterfunktion (falls du sie nutzt, ansonsten durch echte Imports ersetzen)
-const urlFor = (source: any) => ({
-  width: (w: number) => ({
-    height: (h: number) => ({
-      url: () => "https://picsum.photos/" + w + "/" + h // Fallback-Bilder
-    })
-  })
-});
+import Layout from '../layouts/Layout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WIRschaft - Homepage</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-</head>
-<body>
+<Layout 
+	title="Startseite | WIRschaft" 
+	description="Wirtschaft, Geschichte und Events klar strukturiert."
+>
+	<!-- Google Fonts direkt laden, um den Stil aus 'LogoWIRschaft gelb.png' zu matchen -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:wght@900&display=swap" rel="stylesheet">
 
-  <Header />
+	<div class="scrolly-container">
+		
+		<!-- ABSCHNITT 1: HERO & TOP-BUTTONS -->
+		<section class="reveal-section full-screen-hero">
+			<div class="content-box">
+				<div class="logo-inspired-title">
+					<span class="text-red-bold">WIR</span><span class="text-green-script">schaft</span>
+				</div>
+				<p class="section-subtitle">Starke Wirtschaft. Gelebte Geschichte. Gemeinsame Events.</p>
+				
+				<div class="brutal-btn-group">
+					<a href="/ueber-uns/geschichte" class="brutal-btn large white-btn">
+						⏳ Unsere Geschichte
+					</a>
+					<a href="#gallery-section" class="brutal-btn large green-btn">
+						📈 Wirtschaft
+					</a>
+					<a href="#next-event-section" class="brutal-btn large red-btn">
+						📅 Aktuelle Events
+					</a>
+				</div>
+			</div>
+		</section>
 
-  <main>
-    <section class="hero-section">
-      <div class="hero-bg-accent"></div>
-      <div class="container hero-grid">
-        <div class="hero-content">
-          <span class="badge">Unsere Philosophie</span>
-          <h1>Warum das alles? Weil Gemeinschaft Zukunft schafft.</h1>
-          <p>Willkommen bei der <strong>WIRschaft</strong>. Wir vereinen Ideen, Tatkraft und Menschen in Arbeitsgruppen (AGs), um gemeinsam neue Wege zu gehen.</p>
-          <div class="hero-actions">
-            <a href="#ags" class="btn btn-primary">Unsere AGs entdecken</a>
-            <a href="#ueber-uns" class="btn btn-secondary">Mehr über uns</a>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="image-card-deco"></div>
-          <div class="image-card">
-            <img src="/logo.png" alt="WIRschaft Großansicht" />
-          </div>
-        </div>
-      </div>
-    </section>
+		<!-- ABSCHNITT 2: SEITWÄRTS-GALERIE -->
+		<section id="gallery-section" class="reveal-section full-screen-gallery">
+			<div class="content-box wide-box">
+				<div class="gallery-header">
+					<h2 class="script-title-green">Einblicke <span class="sans-black">& Galerie</span></h2>
+					<p>Wische oder scrolle einfach seitwärts, um mehr zu sehen.</p>
+				</div>
+				
+				<div class="horizontal-scroll-track">
+					<div class="brutal-gallery-card">
+						<img src="/galerie-1.jpg" alt="Das erste Jahr" />
+						<div class="card-label">Das erste Jahr</div>
+					</div>
+					<div class="brutal-gallery-card">
+						<img src="/galerie-2.jpg" alt="Unser Team" />
+						<div class="card-label">Unser Team</div>
+					</div>
+					<div class="brutal-gallery-card">
+						<img src="/galerie-3.jpg" alt="Wirtschaftsnetzwerk" />
+						<div class="card-label">Wirtschaftsnetzwerk</div>
+					</div>
+					<div class="brutal-gallery-card">
+						<img src="/galerie-4.jpg" alt="Letztes Event" />
+						<div class="card-label">Letztes Event</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-    <section id="ueber-uns" class="info-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Über die WIRschaft</h2>
-          <div class="accent-line"></div>
-        </div>
-        <div class="info-grid">
-          <div class="info-box">
-            <h3>Wie alles begann</h3>
-            <p>Aus einer kleinen Idee entstand eine dynamische Bewegung. Erfahre mehr über unsere ersten Impulse und Meilensteine.</p>
-          </div>
-          <div class="info-box">
-            <h3>Das erste Jahr</h3>
-            <p>Ein Jahr voller Herausforderungen, Erfolge und unvergesslicher Teammomente. Wir blicken stolz zurück.</p>
-          </div>
-          <div class="info-box">
-            <h3>Das Team</h3>
-            <p>Köpfe voller Ideen. Unsere Mitglieder bringen unterschiedlichste Kompetenzen in die Arbeitsgruppen ein.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+		<!-- ABSCHNITT 3: NÄCHSTES EVENT -->
+		<section id="next-event-section" class="reveal-section full-screen-event">
+			<div class="content-box">
+				<div class="event-hero-card">
+					<span class="mini-badge-red">HIGHLIGHT</span>
+					<h2 class="event-main-title">Großes Netzwerktreffen 2026</h2>
+					<p class="event-time-place">📍 Hauptsaal & Online | 📅 15. Juli 2026 | ⏰ 18:00 Uhr</p>
+					<p class="event-teaser">
+						Tauschen Sie sich mit führenden Köpfen aus Wirtschaft und Praxis aus. 
+						Es erwarten Sie spannende Vorträge zu unseren aktuellen Arbeitsgemeinschaften.
+					</p>
+				</div>
 
-    <section id="termine" class="events-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Unsere Events & Termine</h2>
-          <div class="accent-line"></div>
-        </div>
+				<div class="center-action-wrapper">
+					<a href="/events" class="brutal-btn large green-btn dynamic-width">
+						Alle Events anzeigen →
+					</a>
+				</div>
+			</div>
+		</section>
 
-        <div class="grid">
-          {events.map((event) => (
-            <div class="card">
-              {event.image ? (
-                <img
-                  src={urlFor(event.image).width(800).height(500).url()}
-                  alt={event.title}
-                  class="event-img"
-                />
-              ) : (
-                <div class="event-img-placeholder">
-                  <span>📅 WIRschaft Event</span>
-                </div>
-              )}
-
-              <div class="content">
-                <h2>{event.title}</h2>
-                <div class="date">
-                  📅 {new Date(event.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
-                </div>
-                <p class="caption">
-                  {event.caption}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div class="more-events-wrapper">
-          <a href="/event" class="btn-more">
-            Mehr anzeigen <span class="arrow-right">→</span>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="map-section">
-      <div class="container">
-        <div class="section-header">
-          <h2>Hier findest du uns</h2>
-          <div class="accent-line"></div>
-        </div>
-        <p class="map-description">Unsere Treffen finden regelmäßig an wechselnden Orten oder in unserem Hauptstützpunkt statt.</p>
-        
-        <div id="map"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="main-footer">
-    <p>&copy; {new Date().getFullYear()} WIRschaft. Alle Rechte vorbehalten.</p>
-  </footer>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
-  <script>
-    // --- LOCATION HIER EINSTELLEN ---
-    // Breitengrad (Lat) und Längengrad (Lng) für deinen Standort (Beispiel: Penzberg)
-    const latitude = 47.7505;
-    const longitude = 11.3743;
-    const zoomLevel = 15;
-
-    // Karte initialisieren
-    // @ts-ignore (Verhindert TypeScript-Warnungen in Astro für globale Leaflet-Variable)
-    const map = L.map('map').setView([latitude, longitude], zoomLevel);
-
-    // OpenStreetMap Kartenkacheln laden
-    // @ts-ignore
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende'
-    }).addTo(map);
-
-    // Pin/Marker hinzufügen
-    // @ts-ignore
-    L.marker([latitude, longitude]).addTo(map)
-      .bindPopup('<b>WIRschaft Treffpunkt</b><br>Hier kommen wir zusammen.')
-      .openPopup();
-  </script>
-</body>
-</html>
+	</div>
+</Layout>
 
 <style>
-  :root {
-    --primary-yellow: #FFFE88;
-    --primary-yellow-hover: #fcf960;
-    --dark-text: #222222;
-    --light-gray: #f9f9f9;
-    --border-color: #eaeaea;
-  }
+	/* FARB- & SCHRIFTKONFIGURATION BASIEREND AUF LOGOWIRSCHAFT GELB.PNG */
+	:root {
+		--black: #111111;
+		--wirschaft-red: #ff0000;      /* Signalrot aus dem "WIR"-Schriftzug */
+		--wirschaft-green: #00b341;    /* Sattes Grün aus dem "schaft"-Schriftzug */
+		--brutal-bg: #f6f3ec;
+		--white: #ffffff;
+		
+		/* Fonts */
+		--font-sans-bold: 'Montserrat', sans-serif;
+		--font-script: 'Caveat', cursive;
+	}
 
-  body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    margin: 0;
-    padding: 0;
-    color: var(--dark-text);
-    background-color: #ffffff;
-    padding-top: 70px; /* Platz für fixierten Header */
-    scroll-behavior: smooth;
-  }
+	/* Jede Sektion füllt exakt den Viewport aus */
+	.scrolly-container {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
 
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+	/* Globaler Karo-Hintergrund bleibt bestehen */
+	:global(.main-content) {
+		background:
+			linear-gradient(#e0dbd1 1px, transparent 1px),
+			linear-gradient(90deg, #e0dbd1 1px, transparent 1px);
+		background-size: 60px 60px;
+		background-color: var(--brutal-bg) !important;
+		padding: 0 !important; /* Volle Höhe nutzen ohne Padding-Einschränkung */
+	}
 
-  section {
-    padding: 80px 0;
-  }
+	/* REVEAL SYSTEM (Einblenden beim Scrollen) */
+	.reveal-section {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 40px 24px;
+		opacity: 0;
+		transform: translateY(40px);
+		transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+	}
 
-  .section-header {
-    margin-bottom: 40px;
-  }
+	/* Wird via JavaScript getriggert */
+	.reveal-section.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
 
-  .section-header h2 {
-    font-size: 2rem;
-    margin-bottom: 8px;
-  }
+	.content-box {
+		width: 100%;
+		max-width: 750px;
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+	}
 
-  .accent-line {
-    width: 60px;
-    height: 4px;
-    background-color: var(--primary-yellow);
-    border-radius: 2px;
-  }
+	.content-box.wide-box {
+		max-width: 1100px;
+	}
 
-  /* Buttons */
-  .btn {
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.2s ease;
-  }
+	/* TYPOGRAFIE AUS DEM BILD 'LogoWIRschaft gelb.png' */
+	.logo-inspired-title {
+		font-size: clamp(65px, 15vw, 130px);
+		line-height: 0.9;
+		letter-spacing: -3px;
+		margin-bottom: 10px;
+	}
 
-  .btn-primary {
-    background-color: var(--primary-yellow);
-    color: var(--dark-text);
-  }
+	.text-red-bold {
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		color: var(--wirschaft-red);
+	}
 
-  .btn-primary:hover {
-    background-color: var(--primary-yellow-hover);
-    transform: translateY(-2px);
-  }
+	.text-green-script {
+		font-family: var(--font-script);
+		color: var(--wirschaft-green);
+		font-weight: 700;
+		letter-spacing: 0px;
+		margin-left: -5px; /* Lässt das Cursive fließend in das WIR übergehen */
+	}
 
-  .btn-secondary {
-    background-color: var(--light-gray);
-    color: var(--dark-text);
-    border: 1px solid var(--border-color);
-  }
+	.section-subtitle {
+		font-size: 20px;
+		font-weight: 700;
+		color: var(--black);
+		line-height: 1.4;
+	}
 
-  .btn-secondary:hover {
-    background-color: #eee;
-  }
+	/* SCHRIFT-VARIANTE FÜR SEKTIONS-TITEL */
+	.script-title-green {
+		font-family: var(--font-script);
+		font-size: 55px;
+		color: var(--wirschaft-green);
+		line-height: 1;
+	}
+	.sans-black {
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		color: var(--black);
+		font-size: 38px;
+		letter-spacing: -2px;
+		display: inline-block;
+		transform: translateY(-8px);
+	}
 
-  /* Hero Section */
-  .hero-section {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ffffff 0%, #fffdec 100%);
-  }
+	/* BRUTALIST RETRO KNOEPFE */
+	.brutal-btn-group {
+		display: flex;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
 
-  .hero-bg-accent {
-    position: absolute;
-    top: -100px;
-    right: -100px;
-    width: 400px;
-    height: 400px;
-    background-color: var(--primary-yellow);
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.4;
-    z-index: 1;
-  }
+	.brutal-btn {
+		appearance: none;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		font-size: 16px;
+		text-transform: uppercase;
+		text-decoration: none;
+		text-align: center;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border: 3px solid var(--black);
+		border-radius: 20px;
+		color: var(--black);
+		transition: transform .1s ease, box-shadow .1s ease, background .1s ease;
+		box-shadow: 0 8px 0 var(--black);
+	}
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 40px;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-  }
+	.brutal-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 0 var(--black);
+	}
 
-  .badge {
-    background: var(--primary-yellow);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
+	.brutal-btn:active {
+		transform: translateY(8px);
+		box-shadow: 0 0 0 var(--black);
+	}
 
-  .hero-content h1 {
-    font-size: 3rem;
-    line-height: 1.15;
-    margin: 20px 0;
-  }
+	.large {
+		height: 64px;
+		padding: 0 26px;
+	}
 
-  .hero-content p {
-    font-size: 1.15rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 30px;
-  }
+	.red-btn {
+		background: var(--wirschaft-red);
+		color: var(--white);
+	}
+	.green-btn {
+		background: var(--wirschaft-green);
+		color: var(--white);
+	}
+	.white-btn {
+		background: var(--white);
+	}
 
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-  }
+	.dynamic-width {
+		width: 100%;
+		max-width: 450px;
+	}
 
-  .hero-visual {
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
+	/* SEITWÄRTS SCHIEBENDE BILDERGALERIE */
+	.gallery-header {
+		margin-bottom: 10px;
+	}
+	.gallery-header p {
+		font-weight: 700;
+		color: #555;
+	}
 
-  .image-card {
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    z-index: 2;
-  }
+	.horizontal-scroll-track {
+		display: flex;
+		gap: 24px;
+		overflow-x: auto;
+		padding: 10px 10px 20px 0;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: auto;
+	}
 
-  .image-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    display: block;
-  }
+	/* Scrollbar Styling */
+	.horizontal-scroll-track::-webkit-scrollbar { height: 12px; }
+	.horizontal-scroll-track::-webkit-scrollbar-track {
+		background: var(--white);
+		border: 3px solid var(--black);
+		border-radius: 10px;
+	}
+	.horizontal-scroll-track::-webkit-scrollbar-thumb {
+		background: var(--wirschaft-green);
+		border: 2px solid var(--black);
+		border-radius: 8px;
+	}
 
-  .image-card-deco {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--primary-yellow);
-    bottom: -15px;
-    right: -15px;
-    border-radius: 16px;
-    z-index: 1;
-  }
+	.brutal-gallery-card {
+		flex: 0 0 320px;
+		scroll-snap-align: start;
+		background: var(--white);
+		border: 3px solid var(--black);
+		border-radius: 24px;
+		overflow: hidden;
+		box-shadow: 0 8px 0 var(--black);
+	}
 
-  /* Info Section */
-  .info-section {
-    background-color: var(--light-gray);
-  }
+	.brutal-gallery-card img {
+		width: 100%;
+		height: 220px;
+		object-fit: cover;
+		display: block;
+		border-bottom: 3px solid var(--black);
+	}
 
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-  }
+	.card-label {
+		padding: 14px;
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		font-size: 14px;
+		text-align: center;
+	}
 
-  .info-box {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.01);
-    border-top: 4px solid var(--primary-yellow);
-  }
+	/* EVENT SEKTION ELEMENTE */
+	.event-hero-card {
+		background: var(--white);
+		border: 3px solid var(--black);
+		border-radius: 32px;
+		padding: 40px;
+		box-shadow: 0 14px 0 var(--black);
+	}
 
-  /* Event Section Design-Optimierungen */
-  .events-section {
-    background-color: #ffffff;
-  }
+	.mini-badge-red {
+		background: var(--wirschaft-red);
+		color: var(--white);
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		padding: 4px 10px;
+		font-size: 11px;
+		border: 2px solid var(--black);
+		border-radius: 6px;
+		display: inline-block;
+		margin-bottom: 15px;
+	}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 30px;
-  }
+	.event-main-title {
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		font-size: clamp(28px, 5vw, 42px);
+		letter-spacing: -1.5px;
+		line-height: 1.1;
+		margin-bottom: 12px;
+	}
 
-  .card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease;
-  }
+	.event-time-place {
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		color: var(--wirschaft-green);
+		font-size: 14px;
+		margin-bottom: 20px;
+	}
 
-  .card:hover {
-    transform: translateY(-5px);
-  }
+	.event-teaser {
+		font-size: 16px;
+		line-height: 1.6;
+		font-weight: 600;
+		color: #333;
+	}
 
-  .event-img, .event-img-placeholder {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-  }
+	.center-action-wrapper {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-top: 10px;
+	}
 
-  .event-img-placeholder {
-    background-color: #fffdec;
-    border-bottom: 2px solid var(--primary-yellow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: #666;
-  }
-
-  .card .content {
-    padding: 24px;
-  }
-
-  .card h2 {
-    font-size: 1.4rem;
-    margin: 0 0 12px 0;
-  }
-
-  .date {
-    font-size: 0.9rem;
-    color: #666;
-    background-color: var(--light-gray);
-    padding: 6px 12px;
-    border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 14px;
-  }
-
-  .caption {
-    color: #555;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .more-events-wrapper {
-    text-align: center;
-    margin-top: 50px;
-  }
-
-  .btn-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--dark-text);
-    color: white;
-    padding: 14px 32px;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.2s ease;
-  }
-
-  .btn-more:hover {
-    background: #000;
-  }
-
-  .arrow-right {
-    transition: transform 0.2s ease;
-  }
-
-  .btn-more:hover .arrow-right {
-    transform: translateX(4px);
-  }
-
-  /* OpenStreetMap Map Styles */
-  .map-description {
-    margin-bottom: 24px;
-    color: #555;
-  }
-
-  #map {
-    width: 100%;
-    height: 450px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 4px solid white;
-    z-index: 1; /* Verhindert Konflikte mit dem Header */
-  }
-
-  /* Footer */
-  .main-footer {
-    text-align: center;
-    padding: 40px 0;
-    background-color: var(--dark-text);
-    color: #888;
-    font-size: 0.9rem;
-  }
-
-  /* Mobile Anpassungen */
-  @media (max-width: 900px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
-    
-    .hero-bg-accent {
-      width: 250px;
-      height: 250px;
-    }
-
-    .hero-content h1 {
-      font-size: 2.2rem;
-    }
-
-    .hero-actions {
-      justify-content: center;
-    }
-
-    .hero-visual {
-      order: -1; /* Bild rückt mobil nach oben */
-      max-width: 300px;
-      margin: 0 auto;
-    }
-
-    #map {
-      height: 300px;
-    }
-  }
+	/* RESPONSIVE BREAKPOINTS */
+	@media (min-width: 768px) {
+		.brutal-gallery-card { flex: 0 0 380px; }
+	}
 </style>
+
+<!-- JAVASCRIPT: Schrittweises Einblenden beim Scrollen (Intersection Observer) -->
+<script>
+	const observerOptions = {
+		root: null,
+		rootMargin: '0px',
+		threshold: 0.15 // Sobald 15% der Sektion sichtbar sind, blendet sie ein
+	};
+
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('is-visible');
+			}
+		});
+	}, observerOptions);
+
+	// Alle Abschnitte erfassen und an den Observer hängen
+	document.querySelectorAll('.reveal-section').forEach(section => {
+		observer.observe(section);
+	});
+</script>
