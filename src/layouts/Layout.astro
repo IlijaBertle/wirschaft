@@ -310,9 +310,16 @@ const { title, description = "WIRschaft - Starke Wirtschaft. Gelebte Geschichte.
 	.mini-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--black); }
 	.mini-btn:active { transform: translateY(3px); box-shadow: 0 0 0 var(--black); }
 
+	.mobile-menu-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
 	.round-btn {
-		width: 44px;
-		height: 44px;
+		width: 48px;
+		height: 48px;
 		padding: 0;
 		border-radius: 50%;
 		box-shadow: 0 4px 0 var(--black);
@@ -431,13 +438,15 @@ const { title, description = "WIRschaft - Starke Wirtschaft. Gelebte Geschichte.
 
 	/* RESPONSIVE HAMBURGER ICON DESIGN */
 	.hamburger-box {
-		width: 20px;
-		height: 14px;
-		display: block;
+		width: 18px;
+		height: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		position: relative;
 	}
 	.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
-		width: 20px;
+		width: 18px;
 		height: 2.5px;
 		background-color: var(--black);
 		position: absolute;
@@ -445,8 +454,8 @@ const { title, description = "WIRschaft - Starke Wirtschaft. Gelebte Geschichte.
 		transition: transform 0.2s ease, opacity 0.2s ease;
 	}
 	.hamburger-inner { top: 50%; transform: translateY(-50%); }
-	.hamburger-inner::before { content: ""; top: -6px; }
-	.hamburger-inner::after { content: ""; bottom: -6px; }
+	.hamburger-inner::before { content: ""; top: -5px; }
+	.hamburger-inner::after { content: ""; bottom: -5px; }
 
 	.mobile-menu-toggle[aria-expanded="true"] .hamburger-inner { transform: rotate(45deg); }
 	.mobile-menu-toggle[aria-expanded="true"] .hamburger-inner::before { opacity: 0; }

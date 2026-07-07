@@ -1,81 +1,148 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { client, urlFor } from "../lib/sanity";
+
+// Falls du eine echte Sanity-Integration nutzt, importierst du hier deinen Client/urlFor:
+// import { client } from '../lib/sanity';
+// import urlFor from '../lib/urlFor';
+
+// Beispielhafter Empfang der Events über Props oder direkten Fetch
+interface Event {
+  _id: string;
+  title: string;
+  date: string;
+  caption?: string;
+  image?: unknown;
+}
+
+interface Props {
+  events?: Event[];
+}
+
+const { events: initialEvents = [] } = Astro.props;
+
+const events = initialEvents.length > 0
+  ? initialEvents
+  : await client.fetch<Event[]>(`
+      *[_type == "event"] | order(date asc) {
+        _id,
+        title,
+        date,
+        caption,
+        image
+      }
+    `);
+
+// 1. Aktuelles Datum ermitteln (Basisjahr 2026 berücksichtigen)
+const now = new Date();
+
+// 2. Nur zukünftige Events filtern und chronologisch sortieren
+const upcomingEvents = events
+  .filter(event => new Date(event.date) >= now)
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+// 3. Nur das nächste anstehende Event auswählen
+const nextEvent = upcomingEvents[0];
 ---
 
 <Layout 
 	title="Startseite | WIRschaft" 
 	description="Wirtschaft, Geschichte und Events klar strukturiert."
 >
-	<!-- Google Fonts direkt laden, um den Stil aus 'LogoWIRschaft gelb.png' zu matchen -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:wght@900&display=swap" rel="stylesheet">
 
 	<div class="scrolly-container">
 		
-		<!-- ABSCHNITT 1: HERO & TOP-BUTTONS -->
 		<section class="reveal-section full-screen-hero">
 			<div class="content-box">
 				<div class="logo-inspired-title">
 					<span class="text-red-bold">WIR</span><span class="text-green-script">schaft</span>
 				</div>
-				<p class="section-subtitle">Starke Wirtschaft. Gelebte Geschichte. Gemeinsame Events.</p>
+				<p class="section-subtitle">Sowas wie ein Werbespruch hier.</p>
 				
 				<div class="brutal-btn-group">
-					<a href="/ueber-uns/geschichte" class="brutal-btn large white-btn">
-						⏳ Unsere Geschichte
+					<a href="#map-section" class="brutal-btn large white-btn">
+						📍 Anfahrt & Zeiten
 					</a>
-					<a href="#gallery-section" class="brutal-btn large green-btn">
-						📈 Wirtschaft
+					<a href="/events" class="brutal-btn large red-btn">
+						📅 Unsere Events
 					</a>
-					<a href="#next-event-section" class="brutal-btn large red-btn">
-						📅 Aktuelle Events
+					<a href="#sticky-gallery-section" class="brutal-btn large green-btn">
+						📸 Bilder
 					</a>
 				</div>
 			</div>
 		</section>
 
-		<!-- ABSCHNITT 2: SEITWÄRTS-GALERIE -->
-		<section id="gallery-section" class="reveal-section full-screen-gallery">
+		<section id="map-section" class="reveal-section map-container-section">
 			<div class="content-box wide-box">
-				<div class="gallery-header">
-					<h2 class="script-title-green">Einblicke <span class="sans-black">& Galerie</span></h2>
-					<p>Wische oder scrolle einfach seitwärts, um mehr zu sehen.</p>
-				</div>
+				<h2 class="script-title-green">Hier findest <span class="sans-black">du uns</span></h2>
 				
-				<div class="horizontal-scroll-track">
-					<div class="brutal-gallery-card">
-						<img src="/galerie-1.jpg" alt="Das erste Jahr" />
-						<div class="card-label">Das erste Jahr</div>
+				<div class="map-brutal-frame">
+					<div class="map-embed-wrapper">
+						<iframe 
+							width="100%" 
+							height="100%" 
+							frameborder="0" 
+							scrolling="no" 
+							marginheight="0" 
+							marginwidth="0" 
+							src="https://www.openstreetmap.org/export/embed.html?bbox=11.1290%2C47.7770%2C11.1680%2C47.7970&amp;layer=mapnik&amp;marker=47.7770%2C11.1290"
+							style="border: none;"
+						>
+						</iframe>
 					</div>
-					<div class="brutal-gallery-card">
-						<img src="/galerie-2.jpg" alt="Unser Team" />
-						<div class="card-label">Unser Team</div>
-					</div>
-					<div class="brutal-gallery-card">
-						<img src="/galerie-3.jpg" alt="Wirtschaftsnetzwerk" />
-						<div class="card-label">Wirtschaftsnetzwerk</div>
-					</div>
-					<div class="brutal-gallery-card">
-						<img src="/galerie-4.jpg" alt="Letztes Event" />
-						<div class="card-label">Letztes Event</div>
+					
+					<div class="map-info-grid">
+						<div class="info-block">
+							<h3>📍 Adresse</h3>
+							<p>WIRschaft Büro</p>
+							<p>Dorfstraße 21</p>
+							<p>82386 Oberhausen</p>
+						</div>
+						<div class="info-block">
+							<h3>⏰ Öffnungszeiten</h3>
+							<p>Montag - Donnerstag: 09:00 - 17:00 Uhr</p>
+							<p>Freitag: 09:00 - 14:00 Uhr</p>
+							<p>Wochenende: Bei Events geöffnet</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 
-		<!-- ABSCHNITT 3: NÄCHSTES EVENT -->
-		<section id="next-event-section" class="reveal-section full-screen-event">
+		<section id="next-event-section" class="reveal-section dynamic-event-section">
 			<div class="content-box">
-				<div class="event-hero-card">
-					<span class="mini-badge-red">HIGHLIGHT</span>
-					<h2 class="event-main-title">Großes Netzwerktreffen 2026</h2>
-					<p class="event-time-place">📍 Hauptsaal & Online | 📅 15. Juli 2026 | ⏰ 18:00 Uhr</p>
-					<p class="event-teaser">
-						Tauschen Sie sich mit führenden Köpfen aus Wirtschaft und Praxis aus. 
-						Es erwarten Sie spannende Vorträge zu unseren aktuellen Arbeitsgemeinschaften.
-					</p>
-				</div>
+				<h2 class="script-title-green">Das nächste <span class="sans-black">Highlight</span></h2>
+				
+				{nextEvent ? (
+					<article class="event-hero-card">
+						<span class="mini-badge-red">NÄCHSTER TERMIN</span>
+						{nextEvent.image && (
+							<div class="event-card-img-wrapper">
+								<img
+									src={urlFor(nextEvent.image).width(800).height(500).url()}
+									alt={nextEvent.title}
+								/>
+							</div>
+						)}
+						<div class="event-card-content">
+							<h3 class="event-main-title">{nextEvent.title}</h3>
+							<div class="event-time-place">
+								📅 {new Date(nextEvent.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+							</div>
+							<p class="event-teaser">{nextEvent.caption}</p>
+						</div>
+					</article>
+				) : (
+					<div class="event-hero-card fallback-card">
+						<span class="mini-badge-red">INFO</span>
+						<h3 class="event-main-title">Aktuell planen wir die nächsten Treffen.</h3>
+						<p class="event-teaser">Schau bald wieder vorbei oder abonniere unseren Newsletter, um kein Event zu verpassen!</p>
+					</div>
+				)}
 
 				<div class="center-action-wrapper">
 					<a href="/events" class="brutal-btn large green-btn dynamic-width">
@@ -85,53 +152,72 @@ import Layout from '../layouts/Layout.astro';
 			</div>
 		</section>
 
+		<div id="sticky-gallery-section" class="sticky-gallery-wrapper">
+			<div class="sticky-container">
+				<div class="horizontal-scroll-axis">
+					<div class="gallery-intro-slide">
+						<h2 class="script-title-green">Unsere <span class="sans-black">Galerie</span></h2>
+						<p>Scrolle einfach weiter nach unten, um die Bilder seitwärts zu bewegen.</p>
+					</div>
+					
+					<div class="brutal-gallery-card">
+						<img src="/galerie-1.jpg" alt="Impression 1" />
+					</div>
+					<div class="brutal-gallery-card">
+						<img src="/galerie-2.jpg" alt="Impression 2" />
+					</div>
+					<div class="brutal-gallery-card">
+						<img src="/galerie-3.jpg" alt="Impression 3" />
+					</div>
+					<div class="brutal-gallery-card">
+						<img src="/galerie-4.jpg" alt="Impression 4" />
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </Layout>
 
 <style>
-	/* FARB- & SCHRIFTKONFIGURATION BASIEREND AUF LOGOWIRSCHAFT GELB.PNG */
 	:root {
 		--black: #111111;
-		--wirschaft-red: #ff0000;      /* Signalrot aus dem "WIR"-Schriftzug */
-		--wirschaft-green: #00b341;    /* Sattes Grün aus dem "schaft"-Schriftzug */
+		--wirschaft-red: #ff0000;
+		--wirschaft-green: #00b341;
 		--brutal-bg: #f6f3ec;
 		--white: #ffffff;
-		
-		/* Fonts */
 		--font-sans-bold: 'Montserrat', sans-serif;
 		--font-script: 'Caveat', cursive;
 	}
 
-	/* Jede Sektion füllt exakt den Viewport aus */
 	.scrolly-container {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 	}
 
-	/* Globaler Karo-Hintergrund bleibt bestehen */
 	:global(.main-content) {
 		background:
 			linear-gradient(#e0dbd1 1px, transparent 1px),
 			linear-gradient(90deg, #e0dbd1 1px, transparent 1px);
 		background-size: 60px 60px;
 		background-color: var(--brutal-bg) !important;
-		padding: 0 !important; /* Volle Höhe nutzen ohne Padding-Einschränkung */
+		padding: 0 !important;
 	}
 
-	/* REVEAL SYSTEM (Einblenden beim Scrollen) */
+	/* REVEAL SYSTEM */
 	.reveal-section {
 		min-height: 100vh;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 40px 24px;
+		padding: 80px 24px;
 		opacity: 0;
 		transform: translateY(40px);
 		transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 	}
 
-	/* Wird via JavaScript getriggert */
 	.reveal-section.is-visible {
 		opacity: 1;
 		transform: translateY(0);
@@ -146,10 +232,10 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.content-box.wide-box {
-		max-width: 1100px;
+		max-width: 1000px;
 	}
 
-	/* TYPOGRAFIE AUS DEM BILD 'LogoWIRschaft gelb.png' */
+	/* TYPOGRAFIE & TITEL */
 	.logo-inspired-title {
 		font-size: clamp(65px, 15vw, 130px);
 		line-height: 0.9;
@@ -167,8 +253,7 @@ import Layout from '../layouts/Layout.astro';
 		font-family: var(--font-script);
 		color: var(--wirschaft-green);
 		font-weight: 700;
-		letter-spacing: 0px;
-		margin-left: -5px; /* Lässt das Cursive fließend in das WIR übergehen */
+		margin-left: -5px;
 	}
 
 	.section-subtitle {
@@ -178,13 +263,14 @@ import Layout from '../layouts/Layout.astro';
 		line-height: 1.4;
 	}
 
-	/* SCHRIFT-VARIANTE FÜR SEKTIONS-TITEL */
 	.script-title-green {
 		font-family: var(--font-script);
 		font-size: 55px;
 		color: var(--wirschaft-green);
 		line-height: 1;
+		margin-bottom: 10px;
 	}
+
 	.sans-black {
 		font-family: var(--font-sans-bold);
 		font-weight: 900;
@@ -195,7 +281,7 @@ import Layout from '../layouts/Layout.astro';
 		transform: translateY(-8px);
 	}
 
-	/* BRUTALIST RETRO KNOEPFE */
+	/* RETRO KNOEPFE */
 	.brutal-btn-group {
 		display: flex;
 		gap: 16px;
@@ -205,7 +291,6 @@ import Layout from '../layouts/Layout.astro';
 	.brutal-btn {
 		appearance: none;
 		border: none;
-		outline: none;
 		cursor: pointer;
 		font-family: var(--font-sans-bold);
 		font-weight: 900;
@@ -219,7 +304,7 @@ import Layout from '../layouts/Layout.astro';
 		border: 3px solid var(--black);
 		border-radius: 20px;
 		color: var(--black);
-		transition: transform .1s ease, box-shadow .1s ease, background .1s ease;
+		transition: transform .1s ease, box-shadow .1s ease;
 		box-shadow: 0 8px 0 var(--black);
 	}
 
@@ -238,87 +323,87 @@ import Layout from '../layouts/Layout.astro';
 		padding: 0 26px;
 	}
 
-	.red-btn {
-		background: var(--wirschaft-red);
-		color: var(--white);
-	}
-	.green-btn {
-		background: var(--wirschaft-green);
-		color: var(--white);
-	}
-	.white-btn {
-		background: var(--white);
-	}
+	.red-btn { background: var(--wirschaft-red); color: var(--white); }
+	.green-btn { background: var(--wirschaft-green); color: var(--white); }
+	.white-btn { background: var(--white); }
+	.dynamic-width { width: 100%; max-width: 450px; }
 
-	.dynamic-width {
-		width: 100%;
-		max-width: 450px;
-	}
-
-	/* SEITWÄRTS SCHIEBENDE BILDERGALERIE */
-	.gallery-header {
-		margin-bottom: 10px;
-	}
-	.gallery-header p {
-		font-weight: 700;
-		color: #555;
-	}
-
-	.horizontal-scroll-track {
-		display: flex;
-		gap: 24px;
-		overflow-x: auto;
-		padding: 10px 10px 20px 0;
-		scroll-snap-type: x mandatory;
-		scrollbar-width: auto;
-	}
-
-	/* Scrollbar Styling */
-	.horizontal-scroll-track::-webkit-scrollbar { height: 12px; }
-	.horizontal-scroll-track::-webkit-scrollbar-track {
+	/* MAP FRAME DESIGN */
+	.map-brutal-frame {
 		background: var(--white);
 		border: 3px solid var(--black);
-		border-radius: 10px;
-	}
-	.horizontal-scroll-track::-webkit-scrollbar-thumb {
-		background: var(--wirschaft-green);
-		border: 2px solid var(--black);
-		border-radius: 8px;
-	}
-
-	.brutal-gallery-card {
-		flex: 0 0 320px;
-		scroll-snap-align: start;
-		background: var(--white);
-		border: 3px solid var(--black);
-		border-radius: 24px;
+		border-radius: 32px;
+		box-shadow: 0 14px 0 var(--black);
 		overflow: hidden;
-		box-shadow: 0 8px 0 var(--black);
+		display: flex;
+		flex-direction: column;
 	}
 
-	.brutal-gallery-card img {
+	.map-embed-wrapper {
 		width: 100%;
-		height: 220px;
-		object-fit: cover;
-		display: block;
+		height: 350px;
 		border-bottom: 3px solid var(--black);
+		background: #eee;
 	}
 
-	.card-label {
-		padding: 14px;
+	.map-info-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 24px;
+		padding: 30px;
+		background: var(--white);
+	}
+
+	@media (min-width: 768px) {
+		.map-info-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.info-block h3 {
 		font-family: var(--font-sans-bold);
 		font-weight: 900;
-		font-size: 14px;
-		text-align: center;
+		font-size: 18px;
+		margin-bottom: 10px;
+		color: var(--black);
 	}
 
-	/* EVENT SEKTION ELEMENTE */
+	.info-block p {
+		font-size: 15px;
+		font-weight: 600;
+		color: #444;
+		margin: 4px 0;
+	}
+
+	/* DYNAMIC EVENT CARD */
 	.event-hero-card {
 		background: var(--white);
 		border: 3px solid var(--black);
 		border-radius: 32px;
-		padding: 40px;
+		padding: 30px;
 		box-shadow: 0 14px 0 var(--black);
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.fallback-card {
+		border-style: dashed;
+		background: #fdfcf7;
+	}
+
+	.event-card-img-wrapper {
+		width: 100%;
+		max-height: 300px;
+		overflow: hidden;
+		border: 3px solid var(--black);
+		border-radius: 20px;
+	}
+
+	.event-card-img-wrapper img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
 	.mini-badge-red {
@@ -330,25 +415,23 @@ import Layout from '../layouts/Layout.astro';
 		font-size: 11px;
 		border: 2px solid var(--black);
 		border-radius: 6px;
-		display: inline-block;
-		margin-bottom: 15px;
+		align-self: flex-start;
 	}
 
 	.event-main-title {
 		font-family: var(--font-sans-bold);
 		font-weight: 900;
-		font-size: clamp(28px, 5vw, 42px);
-		letter-spacing: -1.5px;
+		font-size: clamp(24px, 4vw, 36px);
+		letter-spacing: -1px;
 		line-height: 1.1;
-		margin-bottom: 12px;
+		margin: 5px 0;
 	}
 
 	.event-time-place {
 		font-family: var(--font-sans-bold);
 		font-weight: 900;
 		color: var(--wirschaft-green);
-		font-size: 14px;
-		margin-bottom: 20px;
+		font-size: 15px;
 	}
 
 	.event-teaser {
@@ -362,23 +445,85 @@ import Layout from '../layouts/Layout.astro';
 		display: flex;
 		justify-content: center;
 		width: 100%;
-		margin-top: 10px;
+		margin-top: 15px;
 	}
 
-	/* RESPONSIVE BREAKPOINTS */
+	/* STICKY VERTICAL-TO-HORIZONTAL GALLERY */
+	.sticky-gallery-wrapper {
+		position: relative;
+		height: 350vh; /* Bestimmt die Scroll-Länge für die Animation */
+	}
+
+	.sticky-container {
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		overflow: hidden;
+		display: flex;
+		align-items: center;
+	}
+
+	.horizontal-scroll-axis {
+		display: flex;
+		gap: 40px;
+		padding: 0 10vw;
+		will-change: transform;
+	}
+
+	.gallery-intro-slide {
+		flex: 0 0 300px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.gallery-intro-slide p {
+		font-weight: 700;
+		color: #555;
+		font-size: 15px;
+	}
+
+	.brutal-gallery-card {
+		flex: 0 0 300px;
+		background: var(--white);
+		border: 3px solid var(--black);
+		border-radius: 24px;
+		overflow: hidden;
+		box-shadow: 0 8px 0 var(--black);
+	}
+
 	@media (min-width: 768px) {
-		.brutal-gallery-card { flex: 0 0 380px; }
+		.brutal-gallery-card {
+			flex: 0 0 400px;
+		}
+	}
+
+	.brutal-gallery-card img {
+		width: 100%;
+		height: 260px;
+		object-fit: cover;
+		display: block;
+		border-bottom: 3px solid var(--black);
+	}
+
+	.card-label {
+		padding: 14px;
+		font-family: var(--font-sans-bold);
+		font-weight: 900;
+		font-size: 14px;
+		text-align: center;
+		text-transform: uppercase;
 	}
 </style>
 
-<!-- JAVASCRIPT: Schrittweises Einblenden beim Scrollen (Intersection Observer) -->
 <script>
+	// 1. Reveal Animation (Sektionen einblenden)
 	const observerOptions = {
 		root: null,
 		rootMargin: '0px',
-		threshold: 0.15 // Sobald 15% der Sektion sichtbar sind, blendet sie ein
+		threshold: 0.1
 	};
-
+	
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
@@ -387,8 +532,31 @@ import Layout from '../layouts/Layout.astro';
 		});
 	}, observerOptions);
 
-	// Alle Abschnitte erfassen und an den Observer hängen
 	document.querySelectorAll('.reveal-section').forEach(section => {
 		observer.observe(section);
 	});
+
+	// 2. Pure JavaScript Translation für die Seitwärts-Galerie beim Runterscrollen
+	const galleryWrapper = document.getElementById('sticky-gallery-section');
+	const scrollAxis = document.querySelector('.horizontal-scroll-axis') as HTMLElement;
+
+	if (galleryWrapper && scrollAxis) {
+		window.addEventListener('scroll', () => {
+			const offsetTop = galleryWrapper.offsetTop;
+			const wrapperHeight = galleryWrapper.offsetHeight;
+			const windowHeight = window.innerHeight;
+			const scrollTop = window.scrollY;
+
+			// Prüfen, ob wir uns im Scroll-Bereich der Galerie befinden
+			if (scrollTop >= offsetTop && scrollTop <= (offsetTop + wrapperHeight - windowHeight)) {
+				const scrollPercentage = (scrollTop - offsetTop) / (wrapperHeight - windowHeight);
+				const maxMove = scrollAxis.scrollWidth - window.innerWidth + (window.innerWidth * 0.1); 
+				
+				// Schiebe die Achse basierend auf dem vertikalen Scrollfortschritt nach links
+				scrollAxis.style.transform = `translateX(-${scrollPercentage * maxMove}px)`;
+			} else if (scrollTop < offsetTop) {
+				scrollAxis.style.transform = `translateX(0px)`;
+			}
+		});
+	}
 </script>
