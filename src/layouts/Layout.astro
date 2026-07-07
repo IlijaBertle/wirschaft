@@ -4,9 +4,22 @@ import ClickSpark from '../components/ClickSpark';
 interface Props {
 	title: string;
 	description?: string;
+	ogImage?: string;
+	ogType?: string;
+	canonical?: string;
+	structuredData?: Record<string, unknown>;
 }
 
-const { title, description = "WIRschaft - Starke Wirtschaft. Gelebte Geschichte. Gemeinsame Events." } = Astro.props;
+const { 
+	title, 
+	description = "WIRschaft - Starke Wirtschaft. Gelebte Geschichte. Gemeinsame Events.",
+	ogImage = "https://wirschaft.de/og-image.jpg",
+	ogType = "website",
+	canonical = new URL(Astro.url.pathname, Astro.site),
+	structuredData
+} = Astro.props;
+
+const siteTitle = `${title} | WIRschaft`;
 ---
 
 <!doctype html>
@@ -16,8 +29,35 @@ const { title, description = "WIRschaft - Starke Wirtschaft. Gelebte Geschichte.
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/png" href="/logo.png" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{siteTitle}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={ogType} />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:alt" content={title} />
+		<meta property="og:locale" content="de_DE" />
+		<meta property="og:site_name" content="WIRschaft" />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={Astro.url} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+		
+		<!-- Additional SEO -->
+		<meta name="robots" content="index, follow" />
+		<meta name="language" content="de" />
+		<meta name="author" content="WIRschaft" />
+		
+		{structuredData && (
+			<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+		)}
 		
 		<!-- Google Fonts passend zu 'LogoWIRschaft gelb.png' -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">

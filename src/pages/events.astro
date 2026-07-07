@@ -10,7 +10,7 @@ interface Event {
   image?: unknown;
 }
 
-const events = await client.fetch<Event[]>(`
+const allEvents = await client.fetch<Event[]>(`
 *[_type=="event"] | order(date asc){
   _id,
   title,
@@ -19,83 +19,328 @@ const events = await client.fetch<Event[]>(`
   image
 }
 `);
+
+// Filter only upcoming events
+const now = new Date();
+const events = allEvents
+  .filter(event => new Date(event.date) >= now)
+  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+const pastEvents = allEvents
+  .filter(event => new Date(event.date) < now)
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 
-<Layout>
-  <Fragment slot="title">Unsere Events</Fragment>
+<Layout
+  title="Unsere Events"
+  description="Entdecken Sie alle Events und Veranstaltungen der WIRschaft. Netzwerken, lernen und gemeinsam Wirtschaft gestalten."
+>
+  <div class="scrolly-container">
+    <section class="reveal-section events-hero-section">
+      <div class="content-box">
+        <h1 class="script-title-green">Kommende <span class="sans-black">Events</span></h1>
+        {events.length === 0 && (
+          <p class="section-subtitle">Aktuell planen wir die nächsten Treffen. Schau bald wieder vorbei!</p>
+        )}
+      </div>
+    </section>
 
-  <div class="container">
-    <div class="grid">
-      {events.map((event) => (
-        <article class="card">
-          {event.image && (
-            <img
-              src={urlFor(event.image).width(800).height(500).url()}
-              alt={event.title}
-            />
-          )}
+    {events.length > 0 && (
+      <section class="reveal-section events-section">
+        <div class="content-box wide-box">
+          <div class="events-grid">
+            {events.map((event) => (
+              <a href={`/events/${event._id}`} class="event-card-link">
+                <article class="event-card">
+                  {event.image && (
+                    <div class="event-card-img-wrapper">
+                      <img
+                        src={urlFor(event.image).width(400).height(300).url()}
+                        alt={event.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
 
-          <div class="content">
-            <h2>{event.title}</h2>
-            <div class="date">📅 {new Date(event.date).toLocaleDateString("de-DE")}</div>
-            <p class="caption">{event.caption}</p>
+                  <div class="event-card-content">
+                    <div class="event-date">
+                      📅 {new Date(event.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </div>
+                    <h2 class="event-card-title">{event.title}</h2>
+                    <p class="event-card-caption">{event.caption}</p>
+                  </div>
+                </article>
+              </a>
+            ))}
           </div>
-        </article>
-      ))}
-    </div>
+        </div>
+      </section>
+    )}
+
+    {pastEvents.length > 0 && (
+      <section class="reveal-section past-events-section">
+        <div class="content-box wide-box">
+          <h2 class="script-title-green">Vergangene <span class="sans-black">Events</span></h2>
+          <div class="events-grid">
+            {pastEvents.map((event) => (
+              <a href={`/events/${event._id}`} class="event-card-link">
+                <article class="event-card past-event-card">
+                  {event.image && (
+                    <div class="event-card-img-wrapper">
+                      <img
+                        src={urlFor(event.image).width(400).height(300).url()}
+                        alt={event.title}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+
+                  <div class="event-card-content">
+                    <div class="event-date">
+                      📅 {new Date(event.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </div>
+                    <h2 class="event-card-title">{event.title}</h2>
+                    <p class="event-card-caption">{event.caption}</p>
+                  </div>
+                </article>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
   </div>
 </Layout>
 
 <style>
-  .container {
-    width: 100%;
+  :root {
+    --black: #111111;
+    --wirschaft-red: #ff0000;
+    --wirschaft-green: #00b341;
+    --brutal-bg: #f6f3ec;
+    --white: #ffffff;
+    --font-sans-bold: 'Montserrat', sans-serif;
+    --font-script: 'Caveat', cursive;
   }
 
-  .grid {
+  :global(.main-content) {
+    background:
+      linear-gradient(#e0dbd1 1px, transparent 1px),
+      linear-gradient(90deg, #e0dbd1 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-color: var(--brutal-bg) !important;
+    padding: 0 !important;
+  }
+
+  .scrolly-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .reveal-section {
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .reveal-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .events-hero-section {
+    min-height: 30vh;
+    justify-content: center;
+  }
+
+  .events-section {
+    padding: 40px 24px;
+  }
+
+  .past-events-section {
+    padding: 60px 24px;
+  }
+
+  .content-box {
+    width: 100%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .content-box.wide-box {
+    max-width: 1200px;
+  }
+
+  .script-title-green {
+    font-family: var(--font-script);
+    font-size: 55px;
+    color: var(--wirschaft-green);
+    line-height: 1;
+    margin: 0 0 10px 0;
+  }
+
+  .sans-black {
+    font-family: var(--font-sans-bold);
+    font-weight: 900;
+    color: var(--black);
+    font-size: 38px;
+    letter-spacing: -2px;
+    display: inline-block;
+    transform: translateY(-8px);
+  }
+
+  .section-subtitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
   }
 
-  .card {
-    background: white;
-    border-radius: 1.2rem;
+  .event-card-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .event-card {
+    background: var(--white);
+    border: 3px solid var(--black);
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-    transition: transform 180ms ease, box-shadow 180ms ease;
+    box-shadow: 0 10px 0 var(--black);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.12);
+  .event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 0 var(--black);
   }
 
-  img {
+  .past-event-card {
+    opacity: 0.75;
+  }
+
+  .past-event-card:hover {
+    opacity: 1;
+  }
+
+  .event-card-img-wrapper {
     width: 100%;
-    height: 220px;
+    height: 200px;
+    overflow: hidden;
+    border-bottom: 3px solid var(--black);
+  }
+
+  .event-card-img-wrapper img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  .content {
-    padding: 1.25rem;
+  .event-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  h2 {
-    font-size: 1.3rem;
-    margin: 0 0 0.6rem;
-    color: #c62828;
+  .event-date {
+    font-family: var(--font-sans-bold);
+    font-weight: 900;
+    color: var(--wirschaft-green);
+    font-size: 13px;
   }
 
-  .date {
-    color: #2e7d32;
-    font-weight: 700;
-    margin-bottom: 0.8rem;
+  .event-card-title {
+    font-family: var(--font-sans-bold);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--black);
   }
 
-  .caption {
-    color: #5b6472;
-    line-height: 1.6;
+  .event-card-caption {
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+    color: #555;
     margin: 0;
   }
+
+  @media (max-width: 768px) {
+    .reveal-section {
+      padding: 40px 16px;
+    }
+
+    .events-hero-section {
+      min-height: 25vh;
+    }
+
+    .events-section {
+      padding: 30px 16px;
+    }
+
+    .past-events-section {
+      padding: 40px 16px;
+    }
+
+    .events-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .script-title-green {
+      font-size: 40px;
+    }
+
+    .sans-black {
+      font-size: 28px;
+    }
+
+    h1.script-title-green {
+      font-size: 40px;
+    }
+  }
+</style>
+
+<script>
+  // Reveal Animation (Sektionen einblenden)
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal-section').forEach(section => {
+    observer.observe(section);
+  });
+</script>
 </style>

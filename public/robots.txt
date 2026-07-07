@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://wirschaft.de/sitemap-index.xml
+
+# Crawl delay for search engines
+Crawl-delay: 1
+Request-rate: 1/1s
+
+# Google-specific
+User-agent: Googlebot
+Allow: /
