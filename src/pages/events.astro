@@ -5,106 +5,127 @@ import { client, urlFor } from "../lib/sanity";
 interface Event {
   _id: string;
   title: string;
+  slug?: string;
+  contentType?: "blog" | "event";
   date: string;
   caption?: string;
   image?: unknown;
+  gallery?: unknown[];
 }
 
-const allEvents = await client.fetch<Event[]>(`
-*[_type=="event"] | order(date asc){
+const allEntries = await client.fetch<Event[]>(`
+*[_type=="event"] | order(date desc){
   _id,
   title,
+  "slug": slug.current,
+  contentType,
   date,
   caption,
-  image
+  image,
+  gallery
 }
 `);
 
-// Filter only upcoming events
 const now = new Date();
-const events = allEvents
-  .filter(event => new Date(event.date) >= now)
+const upcomingEntries = allEntries
+  .filter((entry) => entry.contentType === "event" ? new Date(entry.date) >= now : true)
   .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-const pastEvents = allEvents
-  .filter(event => new Date(event.date) < now)
+const pastEntries = allEntries
+  .filter((entry) => entry.contentType === "event" ? new Date(entry.date) < now : false)
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 
 <Layout
-  title="Unsere Events"
-  description="Entdecken Sie alle Events und Veranstaltungen der WIRschaft. Netzwerken, lernen und gemeinsam Wirtschaft gestalten."
+  title="Aktuelles"
+  description="Beiträge, Events und Geschichten rund um WIRschaft. Entdecken Sie aktuelle Inhalte, Hintergründe und Veranstaltungen."
 >
   <div class="scrolly-container">
     <section class="reveal-section events-hero-section">
       <div class="content-box">
-        <h1 class="script-title-green">Kommende <span class="sans-black">Events</span></h1>
-        {events.length === 0 && (
-          <p class="section-subtitle">Aktuell planen wir die nächsten Treffen. Schau bald wieder vorbei!</p>
+        <h1 class="script-title-green main-hero-title">Aktuelles <span class="sans-black">& Beiträge</span></h1>
+        <p class="section-subtitle">Hier finden Sie Beiträge, Events und Geschichten aus der WIRschaft.</p>
+        {upcomingEntries.length === 0 && pastEntries.length === 0 && (
+          <p class="section-subtitle">Aktuell veröffentlichen wir noch keine Inhalte. Schau bald wieder vorbei!</p>
         )}
       </div>
     </section>
 
-    {events.length > 0 && (
+    {upcomingEntries.length > 0 && (
       <section class="reveal-section events-section">
         <div class="content-box wide-box">
+          <h2 class="script-title-green">Neue <span class="sans-black">Inhalte</span></h2>
           <div class="events-grid">
-            {events.map((event) => (
-              <a href={`/events/${event._id}`} class="event-card-link">
-                <article class="event-card">
-                  {event.image && (
-                    <div class="event-card-img-wrapper">
-                      <img
-                        src={urlFor(event.image).width(400).height(300).url()}
-                        alt={event.title}
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
+            {upcomingEntries.map((entry) => {
+              const entrySlug = entry.slug || entry._id;
+              return (
+                <a href={`/events/${entrySlug}`} class="event-card-link">
+                  <article class="event-card">
+                    {entry.image && (
+                      <div class="event-card-img-wrapper">
+                        <img
+                          src={urlFor(entry.image).width(400).height(300).url()}
+                          alt={entry.title}
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
 
-                  <div class="event-card-content">
-                    <div class="event-date">
-                      📅 {new Date(event.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                    <div class="event-card-content">
+                      <div class="event-date">
+                        📅 {new Date(entry.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                        {entry.contentType === "event" ? "" : " · Blog"}
+                      </div>
+                      <h3 class="event-card-title">{entry.title}</h3>
+                      <p class="event-card-caption">{entry.caption}</p>
+                      {entry.gallery && entry.gallery.length > 0 && (
+                        <span class="event-meta-pill">📷 {entry.gallery.length} Bilder</span>
+                      )}
                     </div>
-                    <h2 class="event-card-title">{event.title}</h2>
-                    <p class="event-card-caption">{event.caption}</p>
-                  </div>
-                </article>
-              </a>
-            ))}
+                  </article>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
     )}
 
-    {pastEvents.length > 0 && (
+    {pastEntries.length > 0 && (
       <section class="reveal-section past-events-section">
         <div class="content-box wide-box">
-          <h2 class="script-title-green">Vergangene <span class="sans-black">Events</span></h2>
+          <h2 class="script-title-green">Frühere <span class="sans-black">Beiträge</span></h2>
           <div class="events-grid">
-            {pastEvents.map((event) => (
-              <a href={`/events/${event._id}`} class="event-card-link">
-                <article class="event-card past-event-card">
-                  {event.image && (
-                    <div class="event-card-img-wrapper">
-                      <img
-                        src={urlFor(event.image).width(400).height(300).url()}
-                        alt={event.title}
-                        loading="lazy"
-                      />
-                    </div>
-                  )}
+            {pastEntries.map((entry) => {
+              const entrySlug = entry.slug || entry._id;
+              return (
+                <a href={`/events/${entrySlug}`} class="event-card-link">
+                  <article class="event-card past-event-card">
+                    {entry.image && (
+                      <div class="event-card-img-wrapper">
+                        <img
+                          src={urlFor(entry.image).width(400).height(300).url()}
+                          alt={entry.title}
+                          loading="lazy"
+                        />
+                      </div>
+                    )}
 
-                  <div class="event-card-content">
-                    <div class="event-date">
-                      📅 {new Date(event.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                    <div class="event-card-content">
+                      <div class="event-date">
+                        📅 {new Date(entry.date).toLocaleDateString("de-DE", { day: 'numeric', month: 'long', year: 'numeric' })}
+                        {entry.contentType === "event" ? "" : " · Blog"}
+                      </div>
+                      <h3 class="event-card-title">{entry.title}</h3>
+                      <p class="event-card-caption">{entry.caption}</p>
+                      {entry.gallery && entry.gallery.length > 0 && (
+                        <span class="event-meta-pill">📷 {entry.gallery.length} Bilder</span>
+                      )}
                     </div>
-                    <h2 class="event-card-title">{event.title}</h2>
-                    <p class="event-card-caption">{event.caption}</p>
-                  </div>
-                </article>
-              </a>
-            ))}
+                  </article>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -144,7 +165,7 @@ const pastEvents = allEvents
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 24px;
+    padding: 80px 24px;
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
@@ -156,8 +177,9 @@ const pastEvents = allEvents
   }
 
   .events-hero-section {
-    min-height: 30vh;
+    min-height: 35vh;
     justify-content: center;
+    padding-bottom: 40px;
   }
 
   .events-section {
@@ -165,51 +187,64 @@ const pastEvents = allEvents
   }
 
   .past-events-section {
-    padding: 60px 24px;
+    padding: 80px 24px;
   }
 
   .content-box {
     width: 100%;
-    max-width: 750px;
+    max-width: 850px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
   }
 
   .content-box.wide-box {
     max-width: 1200px;
+    gap: 40px;
   }
 
   .script-title-green {
     font-family: var(--font-script);
-    font-size: 55px;
+    font-size: 76px;
     color: var(--wirschaft-green);
-    line-height: 1;
-    margin: 0 0 10px 0;
+    line-height: 1.1;
+    margin: 0;
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .main-hero-title {
+    font-size: 88px;
   }
 
   .sans-black {
     font-family: var(--font-sans-bold);
     font-weight: 900;
     color: var(--black);
-    font-size: 38px;
+    font-size: 54px;
     letter-spacing: -2px;
-    display: inline-block;
-    transform: translateY(-8px);
+    text-transform: uppercase;
+  }
+
+  .main-hero-title .sans-black {
+    font-size: 62px;
   }
 
   .section-subtitle {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--black);
     line-height: 1.4;
     margin: 0;
+    max-width: 650px;
   }
 
   .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
   }
 
   .event-card-link {
@@ -243,7 +278,7 @@ const pastEvents = allEvents
 
   .event-card-img-wrapper {
     width: 100%;
-    height: 200px;
+    height: 220px;
     overflow: hidden;
     border-bottom: 3px solid var(--black);
   }
@@ -256,10 +291,10 @@ const pastEvents = allEvents
   }
 
   .event-card-content {
-    padding: 20px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .event-date {
@@ -267,12 +302,14 @@ const pastEvents = allEvents
     font-weight: 900;
     color: var(--wirschaft-green);
     font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .event-card-title {
     font-family: var(--font-sans-bold);
     font-weight: 900;
-    font-size: 18px;
+    font-size: 22px;
     letter-spacing: -0.5px;
     line-height: 1.2;
     margin: 0;
@@ -280,51 +317,65 @@ const pastEvents = allEvents
   }
 
   .event-card-caption {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.5;
     font-weight: 600;
-    color: #555;
+    color: #444;
     margin: 0;
+  }
+
+  .event-meta-pill {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #e0dbd1;
+    color: var(--black);
+    font-size: 12px;
+    font-weight: 800;
+    width: fit-content;
+    margin-top: 4px;
   }
 
   @media (max-width: 768px) {
     .reveal-section {
-      padding: 40px 16px;
+      padding: 50px 16px;
     }
 
     .events-hero-section {
-      min-height: 25vh;
+      min-height: auto;
     }
 
-    .events-section {
-      padding: 30px 16px;
+    .script-title-green {
+      font-size: 52px;
+      gap: 8px;
     }
 
-    .past-events-section {
-      padding: 40px 16px;
+    .main-hero-title {
+      font-size: 58px;
+    }
+
+    .sans-black {
+      font-size: 34px;
+      letter-spacing: -1px;
+    }
+
+    .main-hero-title .sans-black {
+      font-size: 38px;
+    }
+
+    .section-subtitle {
+      font-size: 18px;
     }
 
     .events-grid {
       grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    .script-title-green {
-      font-size: 40px;
-    }
-
-    .sans-black {
-      font-size: 28px;
-    }
-
-    h1.script-title-green {
-      font-size: 40px;
+      gap: 24px;
     }
   }
 </style>
 
 <script>
-  // Reveal Animation (Sektionen einblenden)
   const observerOptions = {
     root: null,
     rootMargin: '0px',
@@ -343,4 +394,3 @@ const pastEvents = allEvents
     observer.observe(section);
   });
 </script>
-</style>

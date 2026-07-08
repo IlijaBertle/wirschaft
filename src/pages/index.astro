@@ -10,6 +10,7 @@ import { client, urlFor } from "../lib/sanity";
 interface Event {
   _id: string;
   title: string;
+  contentType?: "blog" | "event";
   date: string;
   caption?: string;
   image?: unknown;
@@ -27,6 +28,7 @@ const events = initialEvents.length > 0
       *[_type == "event"] | order(date asc) {
         _id,
         title,
+        contentType,
         date,
         caption,
         image
@@ -38,7 +40,7 @@ const now = new Date();
 
 // 2. Nur zukünftige Events filtern und chronologisch sortieren
 const upcomingEvents = events
-  .filter(event => new Date(event.date) >= now)
+  .filter(event => event.contentType === "event" ? new Date(event.date) >= now : true)
   .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
 // 3. Nur das nächste anstehende Event auswählen
@@ -67,7 +69,7 @@ const nextEvent = upcomingEvents[0];
 						📍 Anfahrt & Zeiten
 					</a>
 					<a href="/events" class="brutal-btn large red-btn">
-						📅 Unsere Events
+						📅 Aktuelles
 					</a>
 					<a href="#sticky-gallery-section" class="brutal-btn large green-btn">
 						📸 Bilder
