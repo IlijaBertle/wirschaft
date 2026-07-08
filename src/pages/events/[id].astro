@@ -6,6 +6,7 @@ interface Event {
   _id: string;
   title: string;
   slug?: string;
+  contentType?: "blog" | "event";
   date: string;
   caption?: string;
   description?: string;
@@ -68,35 +69,68 @@ const heroImageUrl = event.image
   ? urlFor(event.image).width(1400).height(900).fit("crop").auto("format").quality(85).url()
   : `${siteUrl}/og-image.jpg`;
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: event.title,
-  description: event.caption || event.description || `Erfahren Sie mehr über: ${event.title}`,
-  datePublished: isoDate,
-  author: {
-    "@type": "Organization",
-    name: "WIRschaft",
-    url: siteUrl,
-  },
-  mainEntityOfPage: pageUrl,
-  url: pageUrl,
-  image: heroImageUrl,
-  publisher: {
-    "@type": "Organization",
-    name: "WIRschaft",
-    url: siteUrl,
-  },
-};
+const isEvent = event.contentType === "event";
+const metaDescription = event.caption || event.description || `Erfahren Sie mehr über: ${event.title}`;
+
+const structuredData = isEvent
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      name: event.title,
+      description: metaDescription,
+      startDate: isoDate,
+      url: pageUrl,
+      image: heroImageUrl,
+      organizer: {
+        "@type": "Organization",
+        name: "WIRschaft",
+        url: siteUrl,
+      },
+    }
+  : {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: event.title,
+      description: metaDescription,
+      datePublished: isoDate,
+      author: {
+        "@type": "Organization",
+        name: "WIRschaft",
+        url: siteUrl,
+      },
+      mainEntityOfPage: pageUrl,
+      url: pageUrl,
+      image: heroImageUrl,
+      publisher: {
+        "@type": "Organization",
+        name: "WIRschaft",
+        url: siteUrl,
+      },
+    };
+
+const relatedEntries = await client.fetch<Event[]>(`
+*[_type=="event" && _id != $id] | order(date desc)[0..3]{
+  _id,
+  title,
+  "slug": slug.current,
+  contentType,
+  date,
+  caption,
+  image
+}
+`, { id: event._id });
 ---
 
 <Layout
   title={event.title}
-  description={event.caption || event.description || `Erfahren Sie mehr über: ${event.title}`}
+  description={metaDescription}
   ogImage={heroImageUrl}
   ogType="article"
   canonical={pageUrl}
   structuredData={structuredData}
+  publishedTime={isoDate}
+  modifiedTime={isoDate}
+  articleSection={isEvent ? "Events" : "Blog"}
 >
   <div class="scrolly-container">
     <section class="reveal-section event-hero-section">
@@ -153,6 +187,30 @@ const structuredData = {
                     </figure>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {relatedEntries.length > 0 && (
+              <div class="related-section">
+                <h2 class="content-title">Weitere Beiträge</h2>
+                <ul class="related-list">
+                  {relatedEntries.map((entry) => {
+                    const relatedSlug = entry.slug || entry._id;
+                    const relatedDate = entry.date ? new Date(entry.date) : null;
+                    return (
+                      <li>
+                        <a href={`/events/${relatedSlug}`}>
+                          <span class="related-title">{entry.title}</span>
+                          {relatedDate && (
+                            <span class="related-date">
+                              {relatedDate.toLocaleDateString("de-DE", { day: "numeric", month: "short", year: "numeric" })}
+                            </span>
+                          )}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             )}
 
@@ -406,7 +464,42 @@ const structuredData = {
     background: var(--wirschaft-green); 
     color: var(--white); 
   }
+  .related-section {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 2px solid rgba(17, 17, 17, 0.12);
+  }
 
+  .related-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .related-list a {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 2px solid var(--black);
+    text-decoration: none;
+    color: var(--black);
+    font-weight: 700;
+  }
+
+  .related-title {
+    flex: 1;
+  }
+
+  .related-date {
+    color: var(--wirschaft-green);
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
   .action-wrapper {
     display: flex;
     justify-content: flex-start;

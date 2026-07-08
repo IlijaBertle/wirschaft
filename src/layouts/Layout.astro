@@ -8,6 +8,9 @@ interface Props {
 	ogType?: string;
 	canonical?: string;
 	structuredData?: Record<string, unknown>;
+	publishedTime?: string;
+	modifiedTime?: string;
+	articleSection?: string;
 }
 
 const { 
@@ -16,7 +19,10 @@ const {
 	ogImage = "https://wirschaft.de/og-image.jpg",
 	ogType = "website",
 	canonical = new URL(Astro.url.pathname, Astro.site),
-	structuredData
+	structuredData,
+	publishedTime,
+	modifiedTime,
+	articleSection
 } = Astro.props;
 
 const siteTitle = `${title} | WIRschaft`;
@@ -32,6 +38,9 @@ const siteTitle = `${title} | WIRschaft`;
 		<title>{siteTitle}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
+		{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+		{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+		{articleSection && <meta property="article:section" content={articleSection} />}
 		
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content={ogType} />
