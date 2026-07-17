@@ -6,9 +6,82 @@ import Layout from "../layouts/Layout.astro";
   <Fragment slot="title">Datenschutzerklärung</Fragment>
 
   <section class="card">
-    <h2>Datenschutz</h2>
-    <p>Wir verarbeiten personenbezogene Daten nur, wenn dies für die Bereitstellung unserer Dienste erforderlich ist. Dazu zählen Kontaktanfragen und technische Informationen.</p>
-    <p>Sie haben jederzeit das Recht auf Auskunft, Berichtigung und Löschung Ihrer Daten.</p>
+    <h2>Datenschutzerklärung</h2>
+    <p>
+      Diese Datenschutzerklärung informiert Sie darüber, welche personenbezogenen Daten wir auf dieser Website verarbeiten,
+      zu welchen Zwecken wir sie verwenden und welche Rechte Sie haben. Die Erklärung ist auf eine Website zugeschnitten,
+      die auf Cloudflare Pages gehostet wird, Inhalte in Sanity verwaltet und eine OpenStreetMap-Karte einbettet.
+    </p>
+
+    <h3>1. Verantwortlicher</h3>
+    <p>
+      Verantwortlicher im Sinne der Datenschutz-Grundverordnung (DSGVO) ist:<br />
+      <strong>[Name Ihrer Organisation / Community]</strong><br />
+      [Straße und Hausnummer]<br />
+      [Postleitzahl und Ort]<br />
+      E-Mail: [kontakt@ihre-domain.de]
+    </p>
+
+    <h3>2. Welche Daten wir verarbeiten</h3>
+    <ul>
+      <li>Technische Zugriffsdaten beim Aufruf der Website, z. B. IP-Adresse, Datum und Uhrzeit, Browsertyp und Betriebssystem.</li>
+      <li>Angaben, die Sie uns über Kontaktformulare, E-Mail oder sonstige Kontaktwege mitteilen, z. B. Name, E-Mail-Adresse und Ihre Nachricht.</li>
+      <li>Inhalte und Metadaten, die über Sanity für die Darstellung von Seiten, Events oder anderen Inhalten gespeichert werden.</li>
+      <li>Technische Daten, die durch die Einbindung von OpenStreetMap entstehen, etwa beim Laden der Karte oder der Kommunikation mit dem Kartenserver.</li>
+    </ul>
+
+    <h3>3. Zwecke der Verarbeitung</h3>
+    <ul>
+      <li>Bereitstellung und Betrieb der Website.</li>
+      <li>Verwaltung und Darstellung von Inhalten über Sanity.</li>
+      <li>Kontaktaufnahme und Bearbeitung Ihrer Anfragen.</li>
+      <li>Sicherheits- und Fehlersuche sowie Schutz vor Missbrauch.</li>
+    </ul>
+
+    <h3>4. Dienste und Drittanbieter</h3>
+    <p>
+      Für den Betrieb dieser Website setzen wir folgende Dienste ein:
+    </p>
+    <ul>
+      <li><strong>Cloudflare Pages:</strong> Hosting und Bereitstellung der Website. Cloudflare kann technische Daten verarbeiten, um die Website sicher und performant bereitzustellen.</li>
+      <li><strong>Sanity:</strong> Verwaltung und Bereitstellung von Inhalten über ein Content-Management-System. Dabei können Inhalte und Metadaten gespeichert und verarbeitet werden.</li>
+      <li><strong>OpenStreetMap:</strong> Einbindung einer Kartenansicht. Beim Laden der Karte können Daten an OpenStreetMap bzw. deren Server übermittelt werden. Die genaue Verarbeitung unterliegt den Datenschutzrichtlinien von OpenStreetMap.</li>
+    </ul>
+
+    <h3>5. Rechtsgrundlagen</h3>
+    <p>
+      Die Verarbeitung erfolgt auf Basis von Art. 6 Abs. 1 lit. b DSGVO (Erfüllung eines Vertrages bzw. Durchführung vorvertraglicher Maßnahmen),
+      Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an Betrieb und Sicherheit der Website) sowie, soweit erforderlich, auf Basis von Art. 6 Abs. 1 lit. a DSGVO
+      (Einwilligung, z. B. bei Cookies oder optionalen Diensten).
+    </p>
+
+    <h3>6. Speicherdauer</h3>
+    <p>
+      Wir speichern personenbezogene Daten nur so lange, wie es für die genannten Zwecke erforderlich ist oder wie es gesetzliche Aufbewahrungsfristen vorsehen.
+      Technische Protokolldaten werden in der Regel kurzfristig gespeichert und danach anonymisiert oder gelöscht.
+    </p>
+
+    <h3>7. Ihre Rechte</h3>
+    <p>Sie haben unter den gesetzlichen Voraussetzungen das Recht auf:</p>
+    <ul>
+      <li>Auskunft über Ihre gespeicherten Daten,</li>
+      <li>Berichtigung unrichtiger Daten,</li>
+      <li>Löschung Ihrer Daten,</li>
+      <li>Einschränkung der Verarbeitung,</li>
+      <li>Widerspruch gegen die Verarbeitung,</li>
+      <li>Datenübertragbarkeit.</li>
+    </ul>
+    <p>
+      Sie können diese Rechte jederzeit über die oben genannte E-Mail-Adresse geltend machen. Wenn Sie der Ansicht sind,
+      dass die Verarbeitung Ihrer Daten gegen geltendes Recht verstößt, haben Sie zudem das Recht, sich bei einer Aufsichtsbehörde zu beschweren.
+    </p>
+
+    <h3>8. Kontakt</h3>
+    <p>
+      Für Fragen zum Datenschutz können Sie sich jederzeit an uns wenden:
+      <br />
+      E-Mail: [kontakt@ihre-domain.de]
+    </p>
   </section>
 </Layout>
 
@@ -19,5 +92,14 @@ import Layout from "../layouts/Layout.astro";
     padding: 1.5rem;
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
     line-height: 1.7;
+  }
+
+  .card h3 {
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card ul {
+    padding-left: 1.25rem;
   }
 </style>
